@@ -1,0 +1,24 @@
+{
+  "name": "bridgesimulator",
+  "version": "1.0.0",
+  "description": "A multiplayer game, simulating a starship bridge.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Felix Wagner",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.2.0"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Armag3ddon/bridgesimulator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Armag3ddon/bridgesimulator/issues"
+  },
+  "homepage": "https://github.com/Armag3ddon/bridgesimulator#readme"
+}
