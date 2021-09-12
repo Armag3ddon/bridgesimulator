@@ -1,0 +1,23 @@
+body {
+	background: #555;
+	text-align: center;
+	font-family: sans-serif;
+	line-height: 0;
+}
+
+#gameframe {
+	margin: 0;
+}
+
+#ui {
+	width: 1280px;
+	height: 80px;
+	background: #333;
+	margin: auto;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	line-height: 1em;
+	color: white;
+}
