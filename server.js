@@ -29,4 +29,4 @@ server.listen(port, function() {
 });
 
 // Start the game engine
-const engine = new Engine(io);
+const engine = new Engine(io, configuration);

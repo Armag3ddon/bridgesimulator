@@ -1,4 +1,4 @@
-import Entity from './entities/entity.js';
+import Entity from './entity.js';
 import graphic from './../basic/graphic.js';
 
 export default class Scene extends Entity {

@@ -16,6 +16,14 @@ class Socket {
 
 		this.parent.onDisconnection(this);
 	}
+
+	registerNetworkHandle(handle, handler) {
+		this.socket.on(handle, (data) => { handler[handle](data); });
+	}
+
+	networkOut(handle, data) {
+		this.socket.emit(handle, data);
+	}
 }
 
 module.exports = Socket;

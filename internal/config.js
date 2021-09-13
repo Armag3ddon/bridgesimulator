@@ -23,9 +23,9 @@ class Config {
 	}
 
 	getConfig(key) {
-		if (this.config[key])
+		if (this.config[key] !== undefined)
 			return this.config[key];
-		if (this.defaults[key])
+		if (this.defaults[key] !== undefined)
 		return this.defaults[key];
 
 		console.log(`[ERROR]: Configuration for "${key}" requested but does not exist.`);

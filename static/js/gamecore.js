@@ -65,7 +65,8 @@ export default class GameCore {
 
 		this.loop = this.loop.bind(this);
 		this.socket = io();
-		this.socket.on('gamestate', this.networkIn);
+		var self = this;
+		this.socket.on('gamestate', (data) => { self.networkIn(data); });
 		this.scenes = [];
 		this.scene = null;
 	}
@@ -74,6 +75,8 @@ export default class GameCore {
 		this.scenes[scene.getName()] = scene;
 		scene.setSize(this.size.x, this.size.y);
 		scene.setParent(this);
+		if (scene.onAdded)
+			scene.onAdded();
 	}
 
 	removeScene(sceneName) {
@@ -135,5 +138,14 @@ export default class GameCore {
 
 	networkIn(data) {
 		console.log(data);
+	}
+
+	networkOut(handle, data, callback) {
+		this.socket.emit(handle, data, callback);
+	}
+
+	// Any entity can request to receive network updates
+	registerNetworkHandle(handle, handler) {
+		this.socket.on(handle, (data) => { handler.networkIn(handle, data); });
 	}
 }
