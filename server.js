@@ -1,30 +1,32 @@
 // Dependencies
-var express = require('express');
-var http = require('http');
-var path = require('path');
-var socketIO = require('socket.io');
+const express = require('express');
+const http = require('http');
+const path = require('path');
+const socketIO = require('socket.io');
+const Engine = require('./engine.js');
+const Config = require('./internal/config.js');
 
-var app = express();
-var server = http.Server(app);
-var io = socketIO(server);
+// Create important objects
+const app = express();
+const server = http.Server(app);
+const io = socketIO(server);
+const configuration = new Config();
 
-app.set('port', 5000);
-app.use('/static', express.static(__dirname + '/static'));
+// Server settings
+const port = configuration.getConfig("server_port");
+const dir = configuration.getConfig("static_directory");
+app.set('port', port);
+app.use(dir, express.static(__dirname + dir));
 
 // Routing
 app.get('/', function(request, response) {
-	response.sendFile(path.join(__dirname, '/static/index.html'));
+	response.sendFile(path.join(__dirname, dir + '/index.html'));
 });
 
 // Starts the server.
-server.listen(5000, function() {
-	console.log('Starting server on port 5000');
+server.listen(port, function() {
+	console.log(`Starting server on port ${port}`);
 });
 
-// Add the WebSocket handlers
-io.on('connection', function(socket) {
-});
-
-setInterval(function() {
-	io.sockets.emit('gamestate', 'hi!');
-}, 1000);
+// Start the game engine
+const engine = new Engine(io);

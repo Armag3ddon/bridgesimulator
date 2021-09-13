@@ -1,0 +1,1 @@
+/* Store player data received from the server */

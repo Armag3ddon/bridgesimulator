@@ -1,0 +1,6 @@
+{
+	"static_directory": "/static",
+	"server_port": 5000,
+	"server_password": "",
+	"admin_password": "bridgesimulator"
+}
