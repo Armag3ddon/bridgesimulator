@@ -44,16 +44,6 @@ export default class GameCore {
 		this.size = config.screen ? new V2(config.screen.w, config.screen.h) : new V2(800, 600);
 
 		this.display = document.getElementById('gameframe');
-		this.displayCtx = this.display.getContext('2d');
-
-		this.buffer = document.createElement('canvas');
-		this.bufferCtx = this.buffer.getContext('2d');
-		this.buffer.width = this.size.x;
-		this.buffer.height = this.size.y;
-
-		this.fps = 1;
-		this.frames = 0;
-		setInterval(this.updateFramerate.bind(this), 1000);
 
 		if (config.scale) {
 			this.resize();
@@ -62,6 +52,18 @@ export default class GameCore {
 			this.display.width = this.size.x;
 			this.display.height = this.size.y;
 		}
+
+		this.displayCtx = this.display.getContext('2d', config.contextAttributes);
+
+		this.buffer = document.createElement('canvas');
+		this.buffer.style.letterSpacing = '5px';
+		this.bufferCtx = this.buffer.getContext('2d', config.contextAttributes);
+		this.buffer.width = this.size.x;
+		this.buffer.height = this.size.y;
+
+		this.fps = 1;
+		this.frames = 0;
+		setInterval(this.updateFramerate.bind(this), 1000);
 
 		this.loop = this.loop.bind(this);
 		this.socket = io();
@@ -131,8 +133,6 @@ export default class GameCore {
 	draw() {
 		this.scene.draw(this.bufferCtx);
 
-		this.display.width = this.display.width;
-		this.displayCtx.imageSmoothingEnabled = false;
 		this.displayCtx.drawImage(this.buffer, 0, 0, this.size.x * this.scale, this.size.y * this.scale);
 	}
 

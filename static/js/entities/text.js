@@ -1,11 +1,11 @@
 import Entity from './entity.js';
-import fonts from './../defaults/fonts.es6';
+import fonts from './../basic/fonts.js';
 
 export default class TextEntity extends Entity {
 	constructor(pos, text, font, size) {
 		super(pos, size);
 		this.text = [text];
-		this.font = font || fonts.default;
+		this.font = font;
 		this.renewwrap = false;
 		this.wrap = false;
 	}
@@ -43,10 +43,10 @@ export default class TextEntity extends Entity {
 	}
 
 	onDraw(ctx) {
-		this.font.apply(ctx, this.hover());
+		fonts.apply(ctx, this.font);
 		if (this.renewwrap)
 			this.calculateWrap(ctx);
-		for (let i = 0; i < this.text.length; i++)
-			ctx.fillText(this.text[i], 0, 0);
+		  //for (let i = 0; i < this.text.length; i++)
+			ctx.fillText(this.text[0], 0, 0);
 	}
 }

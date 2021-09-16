@@ -7,8 +7,18 @@ export default class Scene extends Entity {
 		this.name = name;
 	}
 
+	/**
+	 * @param {string} url
+	 */
 	setBackground(url) {
 		this.bg = url;
+	}
+
+	/**
+	 * @param {any} color
+	 */
+	setBackgroundColor(color) {
+		this.bgcolor = color;
 	}
 
 	getName() {
@@ -20,6 +30,10 @@ export default class Scene extends Entity {
 	}
 
 	onDraw(ctx) {
+		if (this.bgcolor) {
+			ctx.fillStyle = this.bgcolor;
+			ctx.fillRect(0,0, this.parent.size.x, this.parent.size.y);
+		}
 		if (this.bg) {
 			ctx.drawImage(graphic[this.bg], 0, 0);
 		}

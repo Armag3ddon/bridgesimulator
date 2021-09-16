@@ -1,8 +1,8 @@
-import V2 from './../geo/v2.js';
-import {Zero} from './../geo/v2.js';
-import  Rect from './../geo/rect.js';
-import  mouse from './../basic/mouse.js';
-import {arrayRemove} from './../basic/util.js';
+import V2 from '../geo/v2.js';
+import {Zero} from '../geo/v2.js';
+import  Rect from '../geo/rect.js';
+import  mouse from '../basic/mouse.js';
+import {arrayRemove} from '../basic/util.js';
 
 export default class Entity {
 	constructor(pos, size) {
