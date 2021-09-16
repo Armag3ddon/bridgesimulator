@@ -5,8 +5,8 @@ User access (get on the server) and administrator privileges */
 import V2 from '../geo/v2.js';
 import Scene from './scene.js';
 import TextEntity from './text.js';
+import DOMEntity from './domentity.js';
 import fonts from '../definition/fonts.js';
-import graphic from '../basic/graphic.js';
 
 export default class PasswordScene extends Scene {
 	constructor(passwordName, backTo) {
@@ -40,13 +40,23 @@ export default class PasswordScene extends Scene {
 			if (!data)
 				this.passwordNeeded = false;
 		}
+		if (handle == 'passwordCheck') {
+			console.log(data);
+		}
 	}
 
 	onUpdate() {
 		if (this.waiting) return;
 		if (!this.passwordNeeded) return this.proceed();
-
+		if (!this.prompt) {
+			this.prompt = new DOMEntity('password');
+			this.add(this.prompt);
+		}
 		
+	}
+
+	onDOMEntityEnter(value) {
+		this.parent.networkOut('passwordCheck', { value: `${value}`, password: this.passwordName });
 	}
 
 	proceed() {

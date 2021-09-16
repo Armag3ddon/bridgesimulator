@@ -30,7 +30,7 @@ export default class DOMEntity {
 
 	onKeyUp(event) {
 		// Enter pressed
-		if (event.code == 'Enter')
+		if (event.key == 'Enter')
 			this.onEnter();
 	}
 
