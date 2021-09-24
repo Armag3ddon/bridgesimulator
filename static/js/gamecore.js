@@ -56,7 +56,6 @@ export default class GameCore {
 		this.displayCtx = this.display.getContext('2d', config.contextAttributes);
 
 		this.buffer = document.createElement('canvas');
-		this.buffer.style.letterSpacing = '5px';
 		this.bufferCtx = this.buffer.getContext('2d', config.contextAttributes);
 		this.buffer.width = this.size.x;
 		this.buffer.height = this.size.y;
@@ -71,6 +70,15 @@ export default class GameCore {
 		this.socket.on('gamestate', (data) => { self.networkIn(data); });
 		this.scenes = [];
 		this.scene = null;
+	}
+
+	loadLanguages(callback) {
+		var self = this;
+		this.socket.emit('requestLanguages', (response) => {
+			self.languages_available = response.all;
+			self.current_language = response.default;
+			callback();
+		});
 	}
 
 	addScene(scene) {
@@ -142,6 +150,15 @@ export default class GameCore {
 
 	networkOut(handle, data, callback) {
 		this.socket.emit(handle, data, callback);
+	}
+
+	// Request one or more localised strings from the server
+	// keys can either be a single string or an array of strings,
+	// corresponding to the i18next notation
+	geti18n(keys, callback) {
+		this.socket.emit('i18next', keys, (response) => {
+			callback(response);
+		});
 	}
 
 	// Any entity can request to receive network updates

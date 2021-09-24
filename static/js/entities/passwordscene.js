@@ -30,8 +30,9 @@ export default class PasswordScene extends Scene {
 
 		const title = new TextEntity(new V2(this.parent.size.x/2, 65), 'T h e  B r i d g e', fonts.title);
 		this.add(title);
-		this.messenger = new TextEntity(new V2(this.parent.size.x/2, 150), 'Waiting for password prompt.', fonts.small);
+		this.messenger = new TextEntity(new V2(this.parent.size.x/2, 150), '', fonts.small);
 		this.add(this.messenger);
+		this.messenger.seti18nText(this.parent, 'game.password.waiting');
 	}
 
 	networkIn(handle, data) {

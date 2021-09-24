@@ -21,10 +21,12 @@ window.onload = async () => {
 		const game = new GameCore(config);
 		mouse.init(game);
 		game.run();
-		const anotherscene = null;
-		const passwordscene = new PasswordScene('user', anotherscene);
-		passwordscene.setBackgroundColor('#111');
-		game.addScene(passwordscene);
-		game.goto('PasswordScene');
+		game.loadLanguages(() => {
+			const anotherscene = null;
+			const passwordscene = new PasswordScene('user', anotherscene);
+			passwordscene.setBackgroundColor('#111');
+			game.addScene(passwordscene);
+			game.goto('PasswordScene');
+		});
 	});
 }

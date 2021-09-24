@@ -16,8 +16,20 @@ export default class TextEntity extends Entity {
 	}
 
 	setText(text) {
-		this.text = text;
+		if (Object.prototype.toString.call(text) == '[object String]') {
+			this.text = [text];
+		} else {
+			this.text = text;
+		}
 		if (this.wrap) this.renewwrap = true;
+	}
+
+	// Get a localised text from the server
+	seti18nText(gamecore, key) {
+		var self = this;
+		gamecore.geti18n(key, (response) => {
+			self.setText(response);
+		})
 	}
 
 	calculateWrap(ctx) {

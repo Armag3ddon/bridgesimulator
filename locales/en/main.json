@@ -1,0 +1,20 @@
+{
+	"server": {
+		"start": "Starting server on port {{port}}.",
+		"socket": {
+			"connect": "A new client with id {{id}} connected."
+		}
+	},
+	"game": {
+		"title": "Generic Bridge Simulator",
+		"player": {
+			"connect": "New player ({{id}}) created."
+		},
+		"password": {
+			"waiting": "Waiting for password prompt."
+		}
+	},
+	"misc": {
+		"loading": "Loading..."
+	}
+}

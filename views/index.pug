@@ -1,0 +1,12 @@
+doctype html
+html(lang= language)
+	head
+		title= title
+		script(src='/socket.io/socket.io.js')
+		link(rel='stylesheet', href='/static/css/base.css')
+	body
+		#loading
+			p= loading
+		canvas#gameframe
+		#ui
+		script(src='/static/js/loading.js', type='module')

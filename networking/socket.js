@@ -1,5 +1,7 @@
 /* A single connection to a client */
 
+const i18next = require('i18next');
+
 class Socket {
 	constructor(socket, sockets) {
 		this.socket = socket;
@@ -8,7 +10,7 @@ class Socket {
 		var self = this;
 		this.socket.on('disconnect', (reason) => { self.disconnect(reason); });
 
-		console.log(`A new client with id ${socket.id} connected.`);
+		console.log(i18next.t('server.socket.connect', { id: socket.id }));
 	}
 
 	disconnect(reason) {
@@ -18,7 +20,7 @@ class Socket {
 	}
 
 	registerNetworkHandle(handle, handler) {
-		this.socket.on(handle, (data) => { handler[handle](data); });
+		this.socket.on(handle, (data, callback) => { handler[handle](data, callback); });
 	}
 
 	networkOut(handle, data) {

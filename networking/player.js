@@ -1,5 +1,7 @@
 /* Store all the information about an invidual player */
 
+const i18next = require('i18next');
+
 class Player {
 	constructor(id, socket, players) {
 		this.id = id;
@@ -9,11 +11,14 @@ class Player {
 
 		this.authenticated = false;
 		this.admin = false;
+		this.language = this.parent.parent.default_language;
 
-		console.log(`New player (${id}) created.`);
+		console.log(i18next.t('game.player.connect', { id: id }));
 
 		socket.registerNetworkHandle('passwordNeeded', this);
 		socket.registerNetworkHandle('passwordCheck', this);
+		socket.registerNetworkHandle('requestLanguages', this);
+		socket.registerNetworkHandle('i18next', this);
 	}
 
 	passwordNeeded(data) {
@@ -54,6 +59,24 @@ class Player {
 			this.authenticated = true;
 		if (password == 'admin_password')
 			this.admin = true;
+	}
+
+	requestLanguages(callback) {
+		callback({ all: this.parent.parent.languages, default: this.parent.parent.default_language });
+	}
+
+	i18next(data, callback) {
+		let response = 'Translation error.';
+		if (Object.prototype.toString.call(data) == '[object String]') {
+			response = i18next.t(data, { lng: this.language });
+		}
+		if (Array.isArray(data)) {
+			response = [];
+			for (let i = 0; i < data.length; i++) {
+				response.push(i18next.t(data[i], { lng: this.language }));
+			}
+		}
+		callback(response);
 	}
 }
 

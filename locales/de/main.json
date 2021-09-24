@@ -1,0 +1,14 @@
+{
+	"server": {
+		"start": "Server auf Port {{port}} gestartet.",
+		"socket": {
+			"connect": "Neuer Client mit ID {{id}} verbunden."
+		}
+	},
+	"game": {
+		"title": "Generischer Brückensimulator"
+	},
+	"misc": {
+		"loading": "Lädt..."
+	}
+}

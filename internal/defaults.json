@@ -1,6 +1,11 @@
 {
 	"static_directory": "/static",
+	"language_directory": "/locales",
+	"autodetect_languages": true,
+	"languages_available": [],
+	"pug_directory": "/views",
 	"server_port": 5000,
 	"server_password": "",
+	"server_language": "en",
 	"admin_password": "bridgesimulator"
 }
