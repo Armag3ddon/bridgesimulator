@@ -15,7 +15,7 @@ window.onload = async () => {
 	fonts.add('SeverSansBook', './static/fonts/SeverSansBookItalic.ttf', { style: 'italic', weight: 'normal' });
 	fonts.add('SeverSansBook', './static/fonts/SeverSansBoldItalic.ttf', { style: 'italic', weight: 'bold' });
 	fonts.add('Astonish', './static/fonts/AstonishRegular.ttf', { style: 'normal', weight: 'normal' });
-	fonts.add('7Pxbus', './static/fonts/7Pxbus.ttf', { style: 'normal', weight: 'normal' });
+	fonts.add('SevenPxbus', './static/fonts/7Pxbus.ttf', { style: 'normal', weight: 'normal' });
 	fonts.add('Schwachsinn', './static/fonts/SchwachsinnRegular.ttf', { style: 'normal', weight: 'normal' });
 	await fonts.load();
 

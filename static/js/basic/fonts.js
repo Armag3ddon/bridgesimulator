@@ -6,12 +6,9 @@ export default {
 	},
 
 	async load() {
-		let total = 0, loaded = 0;
-
 		while( this.fonts.length ) {
 			const font = this.fonts.shift();
 			if( typeof this[font.name] == 'undefined' ) {
-				total++;
 				this[font.name] = new FontFace(font.name, `url(${font.url})`);
 				this[font.name].src = font.url;
 				await this[font.name].load();
