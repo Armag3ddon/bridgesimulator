@@ -6,6 +6,7 @@ import V2 from '../geo/v2.js';
 import Scene from './scene.js';
 import TextEntity from './text.js';
 import DOMEntity from './domentity.js';
+import RectEntity from './rectentity.js';
 import fonts from '../definition/fonts.js';
 
 export default class PasswordScene extends Scene {
@@ -29,7 +30,11 @@ export default class PasswordScene extends Scene {
 
 		this.parent.networkOut('passwordNeeded', this.passwordName);
 
-		const title = new TextEntity(new V2(this.parent.size.x/2, 65), 'T h e  B r i d g e', fonts.title);
+		const textboxsize = Math.round(this.parent.size.x * 0.8);
+		const marginx = Math.round((this.parent.size.x - textboxsize) / 2);
+		const textbox = new RectEntity(new V2(marginx, 0));
+
+		const title = new TextEntity(new V2(this.parent.size.x/2, 5), 'T h e  B r i d g e', fonts.title);
 		this.add(title);
 		this.messenger = new TextEntity(new V2(this.parent.size.x/2, 150), '', fonts.small);
 		this.add(this.messenger);
@@ -43,9 +48,7 @@ export default class PasswordScene extends Scene {
 	onLeave() {
 		if (this.prompt)
 			this.prompt.destroy();
-		this.waiting = true;
-		this.passwordNeeded = true;
-		this.active = false;
+		this.destroy();
 	}
 
 	networkIn(handle, data) {
