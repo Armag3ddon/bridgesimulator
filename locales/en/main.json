@@ -12,6 +12,9 @@
 		},
 		"password": {
 			"waiting": "Waiting for password prompt."
+		},
+		"error": {
+			"connection_lost": "There was a problem with the connection to the server."
 		}
 	},
 	"misc": {

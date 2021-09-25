@@ -50,6 +50,8 @@ export default class Entity {
 		if(entity.setParent)
 			entity.setParent(this);
 		this.entities.push(entity);
+		if (entity.onAdded)
+			entity.onAdded();
 	}
 
 	relativeMouse() {

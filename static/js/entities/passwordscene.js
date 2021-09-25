@@ -18,6 +18,7 @@ export default class PasswordScene extends Scene {
 
 		this.waiting = true;
 		this.passwordNeeded = true;
+		this.active = false;
 
 		this.messenger = null;
 	}
@@ -35,25 +36,40 @@ export default class PasswordScene extends Scene {
 		this.messenger.seti18nText(this.parent, 'game.password.waiting');
 	}
 
+	onGoto() {
+		this.active = true;
+	}
+
+	onLeave() {
+		if (this.prompt)
+			this.prompt.destroy();
+		this.waiting = true;
+		this.passwordNeeded = true;
+		this.active = false;
+	}
+
 	networkIn(handle, data) {
+		if (!this.active) return;
+
 		if (handle == 'passwordNeeded') {
 			this.waiting = false;
 			if (!data)
 				this.passwordNeeded = false;
 		}
 		if (handle == 'passwordCheck') {
-			console.log(data);
+			if (data == true)
+				this.proceed();
 		}
 	}
 
 	onUpdate() {
 		if (this.waiting) return;
 		if (!this.passwordNeeded) return this.proceed();
+
 		if (!this.prompt) {
 			this.prompt = new DOMEntity('password');
 			this.add(this.prompt);
-		}
-		
+		}		
 	}
 
 	onDOMEntityEnter(value) {

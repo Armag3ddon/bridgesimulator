@@ -21,7 +21,7 @@ export default {
 	},
 
 	apply(ctx, definition) {
-		ctx.textAlign = definition.textAlign ? definition.textAlign : 'center';
+		ctx.textAlign = definition.textAlign ? definition.textAlign : 'left';
 		ctx.textBaseline = definition.textBaseline ? definition.textBaseline : 'middle';
 		ctx.fillStyle = definition.fillStyle ? definition.fillStyle : 'black';
 		const style = definition.style ? definition.style : 'normal';

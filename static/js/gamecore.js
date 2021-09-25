@@ -68,6 +68,7 @@ export default class GameCore {
 		this.socket = io();
 		var self = this;
 		this.socket.on('gamestate', (data) => { self.networkIn(data); });
+		this.socket.on('disconnect', (reason) => { self.networkError(reason); });
 		this.scenes = [];
 		this.scene = null;
 	}
@@ -95,8 +96,13 @@ export default class GameCore {
 	}
 
 	goto(sceneName) {
-		if (this.scenes[sceneName])
+		if (this.scenes[sceneName]) {
+			if (this.scene && this.onLeave)
+				this.scene.onLeave();
 			this.scene = this.scenes[sceneName];
+			if (this.scene.onGoto)
+				this.scene.onGoto();
+		}
 	}
 
 	run() {
@@ -150,6 +156,10 @@ export default class GameCore {
 
 	networkOut(handle, data, callback) {
 		this.socket.emit(handle, data, callback);
+	}
+
+	networkError(error) {
+		this.goto('ErrorScene');
 	}
 
 	// Request one or more localised strings from the server

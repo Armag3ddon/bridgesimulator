@@ -43,7 +43,8 @@ export default class TextEntity extends Entity {
 			if (i > 0)
 				newtext += ' ';
 			newtext += words[i];
-			// text != '' makes sure that at least one word is added, even if it is too big
+			// text != '' makes sure that at least one word is added,
+			// even if it is too big. This will create overflow.
 			if (ctx.measureText(text + newtext).size > size && text != '') {
 				this.text.push(text);
 				text = newtext.slice(1);
@@ -58,7 +59,11 @@ export default class TextEntity extends Entity {
 		fonts.apply(ctx, this.font);
 		if (this.renewwrap)
 			this.calculateWrap(ctx);
-		  //for (let i = 0; i < this.text.length; i++)
-			ctx.fillText(this.text[0], 0, 0);
+		let y = 0;
+		for (let i = 0; i < this.text.length; i++) {
+			ctx.fillText(this.text[i], 0, y);
+			// Space between lines is 20% of the text size
+			y += this.font.size + Math.floor(this.font.size / 5);
+		}
 	}
 }
