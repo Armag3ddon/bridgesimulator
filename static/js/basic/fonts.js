@@ -19,7 +19,7 @@ export default {
 
 	apply(ctx, definition) {
 		ctx.textAlign = definition.textAlign ? definition.textAlign : 'left';
-		ctx.textBaseline = definition.textBaseline ? definition.textBaseline : 'hanging';
+		ctx.textBaseline = definition.textBaseline ? definition.textBaseline : 'top';
 		ctx.fillStyle = definition.fillStyle ? definition.fillStyle : 'black';
 		const style = definition.style ? definition.style : 'normal';
 		const variant = definition.variant ? definition.variant : 'normal';

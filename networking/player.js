@@ -67,13 +67,26 @@ class Player {
 
 	i18next(data, callback) {
 		let response = 'Translation error.';
-		if (Object.prototype.toString.call(data) == '[object String]') {
-			response = i18next.t(data, { lng: this.language });
+		let request = data;
+		let keys = { lng: this.language };
+
+		// Use JSON to pass along keys as such:
+		// { request: '', keys: { ... } }
+		if (Object.prototype.toString.call(data) === '[object Object]') {
+			if (!data.request)
+				return callback(response);
+			request = data.request;
+			if (Object.prototype.toString.call(data.keys) !== '[object Object]')
+				return callback(response);
+			keys = Object.assign(keys, data.keys);
 		}
-		if (Array.isArray(data)) {
+		if (Object.prototype.toString.call(request) == '[object String]') {
+			response = i18next.t(request, keys);
+		}
+		if (Array.isArray(request)) {
 			response = [];
-			for (let i = 0; i < data.length; i++) {
-				response.push(i18next.t(data[i], { lng: this.language }));
+			for (let i = 0; i < request.length; i++) {
+				response.push(i18next.t(request[i], keys));
 			}
 		}
 		callback(response);

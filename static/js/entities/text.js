@@ -9,10 +9,13 @@ export default class TextEntity extends Entity {
 		this.renewwrap = false;
 		this.wrap = false;
 	}
-
-	setWrap(val) {
-		this.wrap = val;
-		if (val) this.renewwrap = true;
+	
+	// Set to parent's size minus margin
+	setMargin(margin) {
+		this.position.x = margin;
+		this.position.y = margin;
+		this.size.x = this.parent.size.x - margin;
+		this.size.y = this.parent.size.y - margin;
 	}
 
 	setText(text) {
@@ -24,11 +27,32 @@ export default class TextEntity extends Entity {
 		if (this.wrap) this.renewwrap = true;
 	}
 
+	addText(text) {
+		if (Object.prototype.toString.call(text) == '[object String]') {
+			this.text.push(text);
+		} else {
+			this.text.concat(text);
+		}
+		if (this.wrap) this.renewwrap = true;
+	}
+	
+	setWrap(val) {
+		this.wrap = val;
+		if (val) this.renewwrap = true;
+	}
+
 	// Get a localised text from the server
 	seti18nText(gamecore, key) {
 		var self = this;
 		gamecore.geti18n(key, (response) => {
 			self.setText(response);
+		})
+	}
+
+	addi18nText(gamecore, key) {
+		var self = this;
+		gamecore.geti18n(key, (response) => {
+			self.addText(response);
 		})
 	}
 
@@ -60,10 +84,11 @@ export default class TextEntity extends Entity {
 		if (this.renewwrap)
 			this.calculateWrap(ctx);
 		let y = 0;
+		// Space between lines is 20% of the text size
+		const increase = parseInt(this.font.size) + Math.floor(parseInt(this.font.size) / 5);
 		for (let i = 0; i < this.text.length; i++) {
 			ctx.fillText(this.text[i], 0, y);
-			// Space between lines is 20% of the text size
-			y += this.font.size + Math.floor(this.font.size / 5);
+			y += increase;
 		}
 	}
 }

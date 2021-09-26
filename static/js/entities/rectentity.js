@@ -8,13 +8,6 @@ export default class RectEntity extends Entity {
 		this.drawArea = new V2(this.size.x, this.size.y);
 	}
 
-	unfoldEffect(time, callback) {
-		this.unfolding = time;
-		this.unfolded = 0;
-		this.drawArea.y = 1;
-		this.onFinished = callback;
-	}
-
 	onDraw(ctx) {
 		this.color.apply(ctx, this.hover());
 		ctx.fillRect(0, 0, this.drawArea.x | 0, this.drawArea.y | 0);

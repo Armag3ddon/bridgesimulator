@@ -99,7 +99,7 @@ export default class GameCore {
 
 	goto(sceneName) {
 		if (this.scenes[sceneName]) {
-			if (this.scene && this.onLeave)
+			if (this.scene && this.scene.onLeave)
 				this.scene.onLeave();
 			this.scene = this.scenes[sceneName];
 			if (this.scene.onGoto)
