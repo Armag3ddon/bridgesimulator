@@ -8,6 +8,7 @@ import Scene from './scene.js';
 import TextEntity from './text.js';
 import DOMEntity from './domentity.js';
 import RectEntity from './rectentity.js';
+import ResponsiveLayout from './responsivelayout.js';
 import fonts from '../definition/fonts.js';
 import Colors from '../definition/colors.js';
 
@@ -24,6 +25,9 @@ export default class PasswordScene extends Scene {
 		this.active = false;
 
 		this.messenger = null;
+
+		this.layout = new ResponsiveLayout(Zero(), this.size.clone());
+		this.add(this.layout);
 	}
 
 	onAdded() {
@@ -32,16 +36,27 @@ export default class PasswordScene extends Scene {
 
 		this.parent.networkOut('passwordNeeded', this.passwordName);
 
-		const textboxsize = Math.round(this.size.x * 0.8);
-		const marginx = Math.round((this.size.x - textboxsize) / 2);
-		const textbox = new RectEntity(new V2(marginx, 150), new V2(textboxsize, 300), Colors.textbox);
-		this.add(textbox);
+		// Title
+		let row = this.layout.createRow();
+		const title = new TextEntity(Zero(), 'T h e  B r i d g e', fonts.title);
+		this.layout.add2Row(title, row)
+		.setEntityWidth(title, 80)
+		.setEntityMinWidth(title, 300)
+		.setEntityMinHeight(title, parseInt(fonts.title.size));
 
-		const title = new TextEntity(new V2(this.size.x/2, 5), 'T h e  B r i d g e', fonts.title);
-		this.add(title);
+		// Textbox
+		row = this.layout.createRow();
+		const textboxsize = Math.round(this.size.x * 0.8);
+		const textbox = new RectEntity(Zero(), new V2(textboxsize, 300), Colors.textbox);
+		this.layout.add2Row(textbox, row)
+		.setEntityWidth(textbox, 80)
+		.setEntityHeight(textbox, 60)
+		.setEntityMinHeight(textbox, parseInt(fonts.small.size * 2));
+
 		this.messenger = new TextEntity(Zero(), '', fonts.small);
 		textbox.add(this.messenger);
 		this.messenger.setMargin(5);
+		this.messenger.setTextboxstyle();
 		if (this.passwordName == 'user')
 			this.messenger.seti18nText(this.parent, { request: 'game.password.hello', keys: { site: document.location.origin } });
 		if (this.passwordName == 'admin')
@@ -68,8 +83,11 @@ export default class PasswordScene extends Scene {
 			}
 		}
 		if (handle == 'passwordCheck') {
-			if (data == true)
+			if (data == true) {
 				this.proceed();
+			} else {
+				this.messenger.addi18nText(this.parent, 'game.password.incorrect');
+			}
 		}
 	}
 

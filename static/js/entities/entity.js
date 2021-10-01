@@ -3,6 +3,7 @@ import {Zero} from '../geo/v2.js';
 import  Rect from '../geo/rect.js';
 import  mouse from '../basic/mouse.js';
 import {arrayRemove} from '../basic/util.js';
+import GameCore from '../gamecore.js';
 
 export default class Entity {
 	constructor(pos, size) {
@@ -44,6 +45,19 @@ export default class Entity {
 
 	setParent(p) {
 		this.parent = p;
+	}
+
+	getGameCore() {
+		let parent = this.parent;
+		while (!(parent instanceof GameCore)) {
+			console.log(parent instanceof GameCore);
+			if (parent.parent) {
+				parent = parent.parent;
+			} else {
+				return null;
+			}
+		}
+		return parent;
 	}
 
 	add(entity) {
@@ -104,6 +118,14 @@ export default class Entity {
 
 	hover() {
 		return this.getArea().inside(this.relativeMouse());
+	}
+
+	resize(gamecore) {
+		if (this.onResize) {
+			this.onResize(gamecore);
+		}
+		this.dispatch(this.blocking, 'resize', gamecore);
+		this.dispatch(this.entities, 'resize', gamecore);
 	}
 
 	draw(ctx) {

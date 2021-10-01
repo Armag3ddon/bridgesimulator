@@ -39,18 +39,15 @@ window.requestAnimFrame = ((() =>
 
 export default class GameCore {
 	constructor(config) {
+		window.onresize = this.resize.bind(this);
+
 		this.scale = 1;
-		this.size = config.screen ? new V2(config.screen.w, config.screen.h) : new V2(800, 600);
+		this.size = new V2(window.innerWidth, window.innerHeight - document.getElementById('ui').offsetHeight);
 
 		this.display = document.getElementById('gameframe');
 
-		if (config.scale) {
-			this.resize();
-			window.onresize = this.resize.bind(this);
-		} else {
-			this.display.width = this.size.x;
-			this.display.height = this.size.y;
-		}
+		this.display.width = this.size.x;
+		this.display.height = this.size.y;
 
 		this.displayCtx = this.display.getContext('2d', config.contextAttributes);
 
@@ -67,10 +64,11 @@ export default class GameCore {
 		this.socket = io();
 		var self = this;
 		this.socket.on('gamestate', (data) => { self.networkIn(data); });
-		this.socket.on('disconnect', (reason) => { self.networkError(reason); });
+		this.socket.on('disconnect', this.networkError.bind(this));
 		this.socket.onAny((event, data) => {
 			console.log(event + ' @ ' + data);
 		});
+
 		this.scenes = [];
 		this.scene = null;
 	}
@@ -113,13 +111,17 @@ export default class GameCore {
 	}
 
 	resize() {
-		const fw = window.innerWidth / this.size.x;
-		const fh = window.innerHeight / this.size.y;
+		this.size.x = window.innerWidth;
+		this.size.y = window.innerHeight - document.getElementById('ui').offsetHeight;
 
-		this.scale = Math.min(fw, fh);
+		this.display.width = this.size.x;
+		this.display.height = this.size.y;
+		this.buffer.width = this.size.x;
+		this.buffer.height = this.size.y;
 
-		this.display.width = this.size.x * this.scale;
-		this.display.height = this.size.y * this.scale;
+		for (const scene in this.scenes) {
+			this.scenes[scene].resize(this);
+		}
 	}
 
 	updateFramerate() {

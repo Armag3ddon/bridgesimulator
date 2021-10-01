@@ -1,7 +1,13 @@
 import Entity from './entity.js';
 import graphic from './../basic/graphic.js';
 
+/** @module Scene */
 export default class Scene extends Entity {
+	/** 
+	 * A scene entity must always be the top most entity to be added to GameCore. Size will be auto-set when adding the scene.
+	 * @extends Entity
+	 * @param {String} name - The name of this scene. Only one scene of any given name can be added to GameCore.
+	 */
 	constructor(name) {
 		super();
 		this.name = name;
@@ -27,6 +33,10 @@ export default class Scene extends Entity {
 
 	destroy() {
 		this.parent.removeScene(this.name);
+	}
+
+	onResize(gamecore) {
+		this.size = gamecore.size.clone();
 	}
 
 	onDraw(ctx) {

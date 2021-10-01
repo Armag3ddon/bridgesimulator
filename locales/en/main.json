@@ -11,9 +11,10 @@
 			"connect": "New player ({{id}}) created."
 		},
 		"password": {
-			"hello": "Welcome to {{- site}}.",
+			"hello": "Welcome to {{- request.site}}.",
 			"admin": "Administrator login.",
-			"waiting": "Password required. Please enter below."
+			"waiting": "Password required. Please enter below.",
+			"incorrect": "Wrong password. Please try again."
 		},
 		"error": {
 			"connection_lost": "There was a problem with the connection to the server."
