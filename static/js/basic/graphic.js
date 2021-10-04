@@ -1,19 +1,26 @@
 export default {
 	urls: [],
 
+	// Add an image to be loaded
 	add(url) {
 		this.urls.push( url );
 	},
 
-	load(callback) {
+	// Load all images previously added to the list
+	loadAll(callback) {
+		this.load(this.urls, callback);
+	},
+
+	// Load a a given array of images
+	load(images, callback) {
 		let total = 0, loaded = 0;
 
 		function complete() {
 			if( ++loaded >= total ) callback();
 		}
 
-		while( this.urls.length ) {
-			const url = this.urls.shift();
+		while( images.length ) {
+			const url = images.shift();
 			if( typeof this[url] == 'undefined' ) {
 				total++;
 				this[url] = new Image();

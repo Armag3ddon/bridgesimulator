@@ -1,5 +1,5 @@
 import Entity from './entity.js';
-import fonts from './../basic/fonts.js';
+import fonts from '../basic/fonts.js';
 
 /** @module TextEntity */
 export default class TextEntity extends Entity {
@@ -27,6 +27,10 @@ export default class TextEntity extends Entity {
 		this.lineheight = 20;
 		// Regular style: draw lines of text beginning at the top
 		this.top2bottom = true;
+		// Shrink text to fit into the dimension. Size will be given
+		// as maxWidth parameter to fillText(). Usually, this option
+		// fits a single line of text.
+		this.shrink2fit = false;
 		// A margin in pixels that will be applied in reference to
 		// the parent entity
 		this.margin = 0;
@@ -119,6 +123,13 @@ export default class TextEntity extends Entity {
 	 */
 	setBottom2Top() {
 		this.top2bottom = false;
+	}
+
+	/**
+	 * Keep text within size.x limits by using the maxWidth parameter of canvas.fillText(). This options is probably only useful single lines of text.
+	 */
+	shrink2Fit() {
+		this.shrink2fit = true;
 	}
 
 	/**
@@ -272,7 +283,11 @@ export default class TextEntity extends Entity {
 				current = [this.text[i]];
 			}
 			for (let j = 0; j < current.length; j++) {
-				ctx.fillText(current[j], x, y);
+				if (this.shrink2fit) {
+					ctx.fillText(current[j], x, y, this.size.x);
+				} else {
+					ctx.fillText(current[j], x, y);
+				}
 				y += lineheight;
 
 				if (this.textboxstyle) {

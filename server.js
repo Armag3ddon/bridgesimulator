@@ -59,9 +59,9 @@ server.listen(port, () => {
 			loadPath: `http://localhost:${port}${language_dir}/{{lng}}/{{ns}}.json`
 		}
 	}, (err, t) => {
-		if (err) return console.error(err)
+		if (err) return console.error(err);
 
-		console.log(i18next.t('server.start', { port: port }));
+		console.info(i18next.t('server.start', { port: port }));
 
 		// Start the game engine
 		const engine = new Engine(io, configuration, languages_available, default_language);

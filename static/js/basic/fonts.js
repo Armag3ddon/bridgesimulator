@@ -1,3 +1,5 @@
+import Fonts from '../definition/fonts.js';
+
 export default {
 	fonts: [],
 
@@ -17,10 +19,27 @@ export default {
 		}
 	},
 
+	fitFontSizes(screenheight) {
+		const scale = screenheight / Fonts.fixedResolution;
+		for (const font in Fonts) {
+			if (Fonts[font].in1080) {
+				Fonts[font].size = Math.round(Fonts[font].in1080 * scale);
+			}
+		}
+	},
+
+	applyFontColor(color) {
+		for (const font in Fonts) {
+			if (Fonts[font].in1080) {
+				Fonts[font].fillStyle = color;
+			}
+		}
+	},
+
 	apply(ctx, definition) {
 		ctx.textAlign = definition.textAlign ? definition.textAlign : 'left';
 		ctx.textBaseline = definition.textBaseline ? definition.textBaseline : 'top';
-		ctx.fillStyle = definition.fillStyle ? definition.fillStyle : 'black';
+		ctx.fillStyle = definition.fillStyle ? definition.fillStyle : 'white';
 		const style = definition.style ? definition.style : 'normal';
 		const variant = definition.variant ? definition.variant : 'normal';
 		const weight = definition.weight ? definition.weight : 'normal';

@@ -5,8 +5,12 @@ import graphic from './basic/graphic.js';
 import fonts from './basic/fonts.js';
 import mouse from './basic/mouse.js';
 import config from './basic/config.js';
+import MenuScene from './entities/menuscene.js';
 
 window.onload = async () => {
+	// basic graphics
+	graphic.add('/static/img/RegularButton.jpg');
+
 	// fonts
 	fonts.add('EdgeOfTheGalaxy', './static/fonts/EdgeOfTheGalaxyRegular.otf', { style: 'normal', weight: 'normal', stretch: 'extra-expanded' });
 	fonts.add('FeelsLikeNostalgia', './static/fonts/FeelsLikeNostalgiaRegular.ttf', { style: 'normal', weight: 'normal' });
@@ -20,19 +24,18 @@ window.onload = async () => {
 	await fonts.load();
 
 	// preload graphics
-	graphic.load(() => {
+	graphic.loadAll(() => {
 		document.getElementById('loading').style.display = 'none';
 		const game = new GameCore(config);
 		mouse.init(game);
 		game.run();
 		game.loadLanguages(() => {
-			const anotherscene = null;
-			const passwordscene = new PasswordScene('user', anotherscene);
+			const menuscene = new MenuScene();
+			const passwordscene = new PasswordScene('user', menuscene);
 			const errorscene = new ErrorScene();
-			passwordscene.setBackgroundColor('#111');
-			errorscene.setBackgroundColor('#111');
 			game.addScene(passwordscene);
 			game.addScene(errorscene);
+			game.addScene(menuscene);
 			game.goto('PasswordScene');
 		});
 	});

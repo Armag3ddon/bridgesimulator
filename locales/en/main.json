@@ -18,6 +18,9 @@
 		},
 		"error": {
 			"connection_lost": "There was a problem with the connection to the server."
+		},
+		"menu": {
+			"hello": "Welcome {{- request.name}}"
 		}
 	},
 	"misc": {

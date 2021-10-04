@@ -37,6 +37,12 @@ export default class ResponsiveLayout extends Entity {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param {Entity} entity 
+	 * @param {int} percentage 
+	 * @returns 
+	 */
 	setEntityWidth(entity, percentage) {
 		entity._RL_width = percentage;
 
@@ -107,6 +113,7 @@ export default class ResponsiveLayout extends Entity {
 	doResize() {
 		for (let i = 1; i < this.rows.length; i++) {
 			for (let j = 0; j < this.rows[i].length; j++) {
+				console.dir(this.rows[i][j]);
 				this.rows[i][j].size.x = this.rows[i][j]._RL_newsizex;
 				this.rows[i][j].size.y = this.rows[i][j]._RL_newsizey;
 				this.rows[i][j].position.x = this.rows[i][j]._RL_newx;

@@ -1,11 +1,13 @@
 /* Store all the information about an invidual player */
 
 const i18next = require('i18next');
+const PlayerNames = require('../scenarios/playernames.js');
 
 class Player {
 	constructor(id, socket, players) {
 		this.id = id;
 		this.parent = players;
+		this.name = PlayerNames[Math.floor(PlayerNames.length * Math.random())];
 		// Each player gets one socket object assigned
 		this.socket = socket;
 
@@ -13,12 +15,17 @@ class Player {
 		this.admin = false;
 		this.language = this.parent.parent.default_language;
 
-		console.log(i18next.t('game.player.connect', { id: id }));
+		console.info(i18next.t('game.player.connect', { id: id }));
 
 		socket.registerNetworkHandle('passwordNeeded', this);
 		socket.registerNetworkHandle('passwordCheck', this);
 		socket.registerNetworkHandle('requestLanguages', this);
 		socket.registerNetworkHandle('i18next', this);
+		socket.registerNetworkHandle('getPlayerName', this);
+	}
+
+	getPlayerName() {
+		this.socket.networkOut('getPlayerName', this.name);
 	}
 
 	passwordNeeded(data) {

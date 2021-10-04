@@ -10,11 +10,11 @@ class Socket {
 		var self = this;
 		this.socket.on('disconnect', (reason) => { self.disconnect(reason); });
 
-		console.log(i18next.t('server.socket.connect', { id: socket.id }));
+		console.info(i18next.t('server.socket.connect', { id: socket.id }));
 	}
 
 	disconnect(reason) {
-		console.log(`A client lost connection. Reason:\n${reason}`);
+		console.info(`A client lost connection. Reason:\n${reason}`);
 
 		this.parent.onDisconnection(this);
 	}

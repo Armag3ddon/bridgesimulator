@@ -18,7 +18,7 @@ class Config {
 		try {
 			this.config = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../config.json')));
 		} catch (error) {
-			console.log("[WARNING]: No custom configuration file (./config.json) found. Using defaults only.");
+			console.warn("[WARNING]: No custom configuration file (./config.json) found. Using defaults only.");
 		}
 	}
 
@@ -28,7 +28,7 @@ class Config {
 		if (this.defaults[key] !== undefined)
 		return this.defaults[key];
 
-		console.log(`[ERROR]: Configuration for "${key}" requested but does not exist.`);
+		console.error(`[ERROR]: Configuration for "${key}" requested but does not exist.`);
 		return null;
 	}
 }

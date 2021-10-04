@@ -4,7 +4,7 @@ User access (get on the server) and administrator privileges */
 
 import V2 from '../geo/v2.js';
 import Scene from './scene.js';
-import TextEntity from './text.js';
+import TextEntity from './textentity.js';
 import fonts from '../definition/fonts.js';
 import colors from '../definition/colors.js';
 import RectEntity from './rectentity.js';

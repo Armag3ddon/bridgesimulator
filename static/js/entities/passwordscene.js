@@ -5,7 +5,7 @@ User access (get on the server) and administrator privileges */
 import V2 from '../geo/v2.js';
 import {Zero} from '../geo/v2.js';
 import Scene from './scene.js';
-import TextEntity from './text.js';
+import TextEntity from './textentity.js';
 import DOMEntity from './domentity.js';
 import RectEntity from './rectentity.js';
 import ResponsiveLayout from './responsivelayout.js';
@@ -18,7 +18,7 @@ export default class PasswordScene extends Scene {
 
 		// Must be either 'user' or 'admin'
 		this.passwordName = passwordName;
-		this.backToScene = backTo;
+		this.backToScene = backTo.name;
 
 		this.waiting = true;
 		this.passwordNeeded = true;

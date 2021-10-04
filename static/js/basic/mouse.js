@@ -20,8 +20,8 @@ mouse.init = function (g) {
 	};
 
 	gameframe.onmousemove = ev => {
-		self.x = ( ev.clientX - gameframe.offsetLeft ) / game.scale;
-		self.y = ( ev.clientY - gameframe.offsetTop ) / game.scale;
+		self.x = ( ev.clientX - gameframe.offsetLeft );
+		self.y = ( ev.clientY - gameframe.offsetTop );
 	};
 
 	gameframe.onclick = () => {

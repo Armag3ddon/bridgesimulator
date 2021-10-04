@@ -50,7 +50,6 @@ export default class Entity {
 	getGameCore() {
 		let parent = this.parent;
 		while (!(parent instanceof GameCore)) {
-			console.log(parent instanceof GameCore);
 			if (parent.parent) {
 				parent = parent.parent;
 			} else {

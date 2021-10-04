@@ -1,0 +1,90 @@
+import Entity from './entity.js';
+import  V2 from '../geo/v2.js';
+import  TextEntity from './textentity.js';
+import  ImageEntity from './imageentity.js';
+import RectEntity from './rectentity.js'
+import {Zero} from '../geo/v2.js';
+
+export default class Button extends Entity {
+	constructor(position, callback) {
+		super(position);
+
+		this.text = null;
+		this.image = null;
+		this.rect = null;
+
+		this.onClick = p => {
+			callback(p);
+			return true;
+		}
+	}
+
+	static create (pos, callback) {
+		return new Button(pos, callback);
+	}
+
+	shrink2Fit() {
+		this.shrink2fit = true;
+	}
+
+	textButton(text, font) {
+		const self = this;
+		this.text = new TextEntity(Zero(), text, font);
+
+		this.add(this.text);
+
+		return this;
+	}
+
+	imageButton(source) {
+		this.image = new ImageEntity(Zero(), source);
+
+		if (!this.shrink2fit) {
+			this.image.fitToSize();
+		}
+		this.add(this.image);
+
+		return this;
+	}
+
+	rectButton(color) {
+		const rect = new RectEntity(Zero(), Zero(), color);
+
+		this.add(rect);
+
+		return this;
+	}
+
+	setText(text) {
+		if (!this.text) return;
+
+		this.text.setText(text);
+	}
+
+	seti18nText(gamecore, key) {
+		if (!this.text) return;
+		
+		this.text.seti18nText(gamecore, key);
+	}
+
+	onMouseDown() {
+		return true;
+	}
+
+	onResize() {
+		if (this.shrink2fit) {
+			if (this.image && this.image.image) {
+				const offset = Zero();
+				offset.x = Math.round((this.size.x - this.image.image.width) / 2);
+				offset.y = Math.round((this.size.y - this.image.image.height) / 2);
+				this.position.add(offset);
+				this.size.x = this.image.image.width;
+				this.size.y = this.image.image.height;
+			}
+		} else {
+			for (let i = 0; i < this.entities.length; i++) {
+				this.entities[i].size = this.size.clone();
+			}
+		}
+	}
+}

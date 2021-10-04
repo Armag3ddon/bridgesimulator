@@ -27,6 +27,8 @@ SOFTWARE.
 */
 
 import V2 from './geo/v2.js';
+import fonts from './basic/fonts.js';
+import Colors from './definition/colors.js';
 
 window.requestAnimFrame = ((() =>
 	window.requestAnimationFrame ||
@@ -40,6 +42,8 @@ window.requestAnimFrame = ((() =>
 export default class GameCore {
 	constructor(config) {
 		window.onresize = this.resize.bind(this);
+		fonts.fitFontSizes(window.screen.height);
+		fonts.applyFontColor(Colors.defaultTextColor);
 
 		this.scale = 1;
 		this.size = new V2(window.innerWidth, window.innerHeight - document.getElementById('ui').offsetHeight);
@@ -63,6 +67,7 @@ export default class GameCore {
 		this.loop = this.loop.bind(this);
 		this.socket = io();
 		var self = this;
+		this.socket.on('getPlayerName', this.playerName.bind(this));
 		this.socket.on('gamestate', (data) => { self.networkIn(data); });
 		this.socket.on('disconnect', this.networkError.bind(this));
 		this.socket.onAny((event, data) => {
@@ -71,6 +76,8 @@ export default class GameCore {
 
 		this.scenes = [];
 		this.scene = null;
+
+		this.networkOut('getPlayerName');
 	}
 
 	loadLanguages(callback) {
@@ -119,9 +126,7 @@ export default class GameCore {
 		this.buffer.width = this.size.x;
 		this.buffer.height = this.size.y;
 
-		for (const scene in this.scenes) {
-			this.scenes[scene].resize(this);
-		}
+		this.broadcast('resize', this);
 	}
 
 	updateFramerate() {
@@ -154,6 +159,14 @@ export default class GameCore {
 		this.displayCtx.drawImage(this.buffer, 0, 0, this.size.x * this.scale, this.size.y * this.scale);
 	}
 
+	broadcast(callback, data) {
+		for (const scene in this.scenes) {
+			if (this.scenes[scene] && this.scenes[scene][callback]) {
+				this.scenes[scene][callback](data);
+			}
+		}
+	}
+
 	networkIn(data) {
 		console.log(data);
 	}
@@ -164,6 +177,11 @@ export default class GameCore {
 
 	networkError(error) {
 		this.goto('ErrorScene');
+	}
+
+	playerName(name) {
+		this.name = `${name}`;
+		this.broadcast('playerName', this.name);
 	}
 
 	// Request one or more localised strings from the server
