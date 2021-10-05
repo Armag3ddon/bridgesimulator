@@ -66,10 +66,24 @@ export default class MenuScene extends Scene {
 		.setEntityHeight(layout, 50)
 		.setEntityMinHeight(layout, 50);
 
-		const button1 = Button.create(Zero(), () => {}).rectButton(Colors.button);
-		layout.add(button1);
+		// Create button layout
+		this.createLayoutButton('game.menu.b1options');
+		this.createLayoutButton('game.menu.b2server');
+		this.createLayoutButton('game.menu.b2roles');
+		this.createLayoutButton('game.menu.b2start');
 
 		this.resize(this.parent);
+	}
+
+	createLayoutButton(layout, languageKey) {
+		const button = Button.create(Zero(), () => {})
+		.rectButton(Colors.button);
+		// Add button before assigning text,
+		// so that the canvas context is available for measureText()
+		layout.add(button);
+
+		button.textButton('', fonts.button)
+		.seti18nText(this.parent, 'game.menu.b1options');
 	}
 
 	onGoto() {

@@ -176,8 +176,9 @@ export default class Entity {
 		}
 	}
 
-	center(obj) {
-		obj.position.x = this.size.x / 2 - obj.size.x / 2;
-		this.add(obj);
+	center() {
+		if (!this.parent) return;
+		this.position.x = Math.floor(this.parent.size.x / 2 - this.size.x / 2);
+		this.position.y = Math.floor(this.parent.size.y / 2 - this.size.y / 2);
 	}
 }

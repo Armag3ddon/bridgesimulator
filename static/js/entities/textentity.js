@@ -223,7 +223,7 @@ export default class TextEntity extends Entity {
 				longestline = i;
 		}
 		fonts.apply(gamecore.bufferCtx, this.font);
-		this.size.x = gamecore.bufferCtx.measureText(this.text[longestline]);
+		this.size.x = Math.ceil(gamecore.bufferCtx.measureText(this.text[longestline]).width);
 		this.size.y = this.calculateLineHeight() * this.text.length;
 	}
 

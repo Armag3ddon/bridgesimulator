@@ -48,7 +48,7 @@ export default class Button extends Entity {
 	}
 
 	rectButton(color) {
-		const rect = new RectEntity(Zero(), Zero(), color);
+		const rect = new RectEntity(Zero(), Zero(), color, 2);
 
 		this.add(rect);
 
@@ -83,7 +83,12 @@ export default class Button extends Entity {
 			}
 		} else {
 			for (let i = 0; i < this.entities.length; i++) {
-				this.entities[i].size = this.size.clone();
+				if (this.entities[i] != this.text) {
+					this.entities[i].size = this.size.clone();
+				} else {
+					// Center the text
+					this.entities[i].center();
+				}
 			}
 		}
 	}

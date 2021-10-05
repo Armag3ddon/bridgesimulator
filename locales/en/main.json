@@ -20,7 +20,11 @@
 			"connection_lost": "There was a problem with the connection to the server."
 		},
 		"menu": {
-			"hello": "Welcome {{- request.name}}"
+			"hello": "Welcome {{- request.name}}",
+			"b1options": "Options",
+			"b2server": "Server",
+			"b3roles": "Select Role",
+			"b4start": "Start"
 		}
 	},
 	"misc": {
