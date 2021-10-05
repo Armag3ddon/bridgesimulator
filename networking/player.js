@@ -29,7 +29,7 @@ class Player {
 	}
 
 	passwordNeeded(data) {
-		const passwordName = this.socket.sanitizeInput(data, { "user": "server_password", "admin": "admin_password" });
+		const passwordName = this.socket.sanitizeInput(data, { 'user': 'server_password', 'admin': 'admin_password' });
 		if (passwordName == null) {
 			this.socket.networkOut('passwordCheck', false);	
 			return;
@@ -46,7 +46,7 @@ class Player {
 	passwordCheck(data) {
 		if (!data.value && !data.password) return;
 
-		const passwordName = this.socket.sanitizeInput(data.password, { "user": "server_password", "admin": "admin_password" });
+		const passwordName = this.socket.sanitizeInput(data.password, { 'user': 'server_password', 'admin': 'admin_password' });
 		if (passwordName == null) {
 			this.socket.networkOut('passwordCheck', false);	
 			return;

@@ -16,7 +16,9 @@
     "pug": "^3.0.2",
     "socket.io": "^4.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/Armag3ddon/bridgesimulator.git"

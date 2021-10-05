@@ -1,8 +1,7 @@
 import Entity from './entity.js';
-import  V2 from '../geo/v2.js';
 import  TextEntity from './textentity.js';
 import  ImageEntity from './imageentity.js';
-import RectEntity from './rectentity.js'
+import RectEntity from './rectentity.js';
 import {Zero} from '../geo/v2.js';
 
 export default class Button extends Entity {
@@ -16,7 +15,7 @@ export default class Button extends Entity {
 		this.onClick = p => {
 			callback(p);
 			return true;
-		}
+		};
 	}
 
 	static create (pos, callback) {
@@ -28,7 +27,6 @@ export default class Button extends Entity {
 	}
 
 	textButton(text, font) {
-		const self = this;
 		this.text = new TextEntity(Zero(), text, font);
 
 		this.add(this.text);
