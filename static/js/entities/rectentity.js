@@ -16,7 +16,7 @@ export default class RectEntity extends Entity {
 		ctx.strokeRect(0, 0, this.drawArea.x | 0, this.drawArea.y | 0);
 	}
 
-	onResize(gamecore) {
+	onResize() {
 		this.drawArea.x = this.size.x;
 		this.drawArea.y = this.size.y;
 	}

@@ -45,7 +45,7 @@ export default class TextEntity extends Entity {
 	 * Replace the displayed text entirely.
 	 * @param {*} text - Can be string for a single line or an array for multiple lines.
 	 */
-	 setText(text) {
+	setText(text) {
 		if (Object.prototype.toString.call(text) == '[object String]') {
 			this.text = [text];
 		} else {
@@ -82,7 +82,7 @@ export default class TextEntity extends Entity {
 		var self = this;
 		gamecore.geti18n(key, (response) => {
 			self.setText(response);
-		})
+		});
 	}
 
 	/**
@@ -94,7 +94,7 @@ export default class TextEntity extends Entity {
 		var self = this;
 		gamecore.geti18n(key, (response) => {
 			self.addText(response);
-		})
+		});
 	}
 
 	/**
@@ -144,7 +144,7 @@ export default class TextEntity extends Entity {
 	 * This will make sure that long lines of text will break when exceeding a certain length. However, at least one word gets added per line. This will create overflow for small sizes and long words. Line break will be added at spaces, no hyphenation takes place.
 	 * @param {int} length - The maximum length in px that should not be exceeded.
 	 */
-	 setWrap(length) {
+	setWrap(length) {
 		this.wrap = length;
 		if (length) this.renewwrap = true;
 	}
@@ -217,7 +217,7 @@ export default class TextEntity extends Entity {
 	// Incompatible with setWrap because with that, you supply the size
 	measureArea() {
 		const gamecore = this.getGameCore();
-		let longestline = 0
+		let longestline = 0;
 		for (let i = 1; i < this.text.length; i++) {
 			if (this.text[i].length > longestline)
 				longestline = i;
@@ -241,7 +241,7 @@ export default class TextEntity extends Entity {
 			this.calculateWrap(ctx);
 
 		// Space between lines is 20% of the text size
-		const lineheight = this.calculateLineHeight();
+		let lineheight = this.calculateLineHeight();
 
 		let x = 0;
 		let y = 0;

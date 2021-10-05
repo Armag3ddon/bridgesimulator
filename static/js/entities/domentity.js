@@ -8,7 +8,7 @@ export default class DOMEntity {
 
 		this.id = Math.random().toString();
 		while (document.getElementById(this.id) != null)
-			id = Math.random().toString();
+			this.id = Math.random().toString();
 		this.element = document.createElement('input');
 		this.element.setAttribute('type', inputType);
 		this.element.setAttribute('size', 30);

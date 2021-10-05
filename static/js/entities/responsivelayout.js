@@ -1,4 +1,4 @@
-import Entity from "./entity.js";
+import Entity from './entity.js';
 
 /** @module ResponsiveLayout */
 export default class ResponsiveLayout extends Entity {

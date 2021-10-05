@@ -73,7 +73,7 @@ export default class V2 {
 	}
 
 	equal(v) {
-		return v.x == this.x && v.y == this.y
+		return v.x == this.x && v.y == this.y;
 	}
 
 	abs() {
@@ -109,7 +109,7 @@ export default class V2 {
 		const x = Math.round(Math.sin(angle) * length);
 		const y = -Math.round(Math.cos(angle) * length);
 		return new V2(x, y);
-	};
+	}
 }
 
 export function Zero() {

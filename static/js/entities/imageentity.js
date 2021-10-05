@@ -29,7 +29,7 @@ export default class ImageEntity extends Entity {
 			this.size.x = this.image.width;
 			this.size.y = this.image.height;
 		} else {
-			calculateScale();
+			this.calculateScale();
 		}
 	}
 
@@ -48,7 +48,7 @@ export default class ImageEntity extends Entity {
 
 		if (this.size.x >= 1 && this.size.y >= 1) {
 			if (this.keepproportions) {
-				ctx.drawImage(this.image, 0, 0, this.image.width * scale, this.image.height * scale);
+				ctx.drawImage(this.image, 0, 0, this.image.width * this.scale, this.image.height * this.scale);
 			} else {
 				ctx.drawImage(this.image, 0, 0, this.size.x, this.size.y);
 			}

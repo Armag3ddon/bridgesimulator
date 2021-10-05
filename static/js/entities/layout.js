@@ -31,14 +31,14 @@ export default class Layout extends Entity {
 
 	onResize() {
 		let x = 0, y = 0, width, height, xincrease, yincrease, result;
-		if (this.align = 'horizontal') {
+		if (this.align == 'horizontal') {
 			result = this.calculateSize(this.size.x, this.entities.length, this.spacing);
 			xincrease = result.size + result.spacing;
 			yincrease = 0;
 			width = result.size;
 			height = this.size.y;
 		}
-		if (this.align = 'vertical') {
+		if (this.align == 'vertical') {
 			result = this.calculateSize(this.size.y, this.entities.length, this.spacing);
 			xincrease = 0;
 			yincrease = result.size + result.spacing;

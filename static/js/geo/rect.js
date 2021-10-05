@@ -19,15 +19,15 @@ export default class Rect {
 
 	combine(r) {
 		return new Rect(
-				new V2(Math.min(this.p1.x, r.p1.x), Math.min(this.p1.y, r.p1.y)),
-				new V2(Math.max(this.p2.x, r.p2.x), Math.max(this.p2.y, r.p2.y))
+			new V2(Math.min(this.p1.x, r.p1.x), Math.min(this.p1.y, r.p1.y)),
+			new V2(Math.max(this.p2.x, r.p2.x), Math.max(this.p2.y, r.p2.y))
 		);
 	}
 
 	moved(v) {
 		return new Rect(
-				this.p1.sum(v),
-				this.p2.sum(v)
+			this.p1.sum(v),
+			this.p2.sum(v)
 		);
 	}
 

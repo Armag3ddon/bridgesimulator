@@ -40,18 +40,18 @@ export default class PasswordScene extends Scene {
 		let row = this.layout.createRow();
 		const title = new TextEntity(Zero(), 'T h e  B r i d g e', fonts.title);
 		this.layout.add2Row(title, row)
-		.setEntityWidth(title, 80)
-		.setEntityMinWidth(title, 300)
-		.setEntityMinHeight(title, parseInt(fonts.title.size));
+			.setEntityWidth(title, 80)
+			.setEntityMinWidth(title, 300)
+			.setEntityMinHeight(title, parseInt(fonts.title.size));
 
 		// Textbox
 		row = this.layout.createRow();
 		const textboxsize = Math.round(this.size.x * 0.8);
 		const textbox = new RectEntity(Zero(), new V2(textboxsize, 300), Colors.textbox);
 		this.layout.add2Row(textbox, row)
-		.setEntityWidth(textbox, 80)
-		.setEntityHeight(textbox, 60)
-		.setEntityMinHeight(textbox, parseInt(fonts.small.size * 2));
+			.setEntityWidth(textbox, 80)
+			.setEntityHeight(textbox, 60)
+			.setEntityMinHeight(textbox, parseInt(fonts.small.size * 2));
 
 		this.messenger = new TextEntity(Zero(), '', fonts.small);
 		textbox.add(this.messenger);

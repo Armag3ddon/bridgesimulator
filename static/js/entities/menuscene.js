@@ -2,11 +2,9 @@
 There are two possible passwords to be requested:
 User access (get on the server) and administrator privileges */
 
-import V2 from '../geo/v2.js';
 import {Zero} from '../geo/v2.js';
 import Scene from './scene.js';
 import TextEntity from './textentity.js';
-import DOMEntity from './domentity.js';
 import RectEntity from './rectentity.js';
 import ResponsiveLayout from './responsivelayout.js';
 import Layout from './layout.js';
@@ -28,43 +26,43 @@ export default class MenuScene extends Scene {
 
 		let spacer = new Entity();
 		this.layout.add2Row(spacer, row)
-		.setEntityWidth(spacer, 100)
-		.setEntityMinHeight(spacer, 5);
+			.setEntityWidth(spacer, 100)
+			.setEntityMinHeight(spacer, 5);
 
 		spacer = new Entity();
 		this.layout.add2Row(spacer, row)
-		.setEntityWidth(spacer, 5)
-		.setEntityHeight(spacer, 5);
+			.setEntityWidth(spacer, 5)
+			.setEntityHeight(spacer, 5);
 
 		this.hello = new TextEntity(Zero(), '', fonts.friendly);
 		if (this.parent.name) {
 			this.hello.seti18nText(this.parent, { request: 'game.menu.hello', keys: { name: this.parent.name } });
 		}
 		this.layout.add2Row(this.hello, row)
-		.setEntityWidth(this.hello, 95)
-		.setEntityHeight(this.hello, 5)
-		.setEntityMinHeight(this.hello, fonts.friendly.size);
+			.setEntityWidth(this.hello, 95)
+			.setEntityHeight(this.hello, 5)
+			.setEntityMinHeight(this.hello, fonts.friendly.size);
 
 		row = this.layout.createRow();
 
 		const textbox = new RectEntity(Zero(), Zero(), Colors.textbox);
 		this.layout.add2Row(textbox, row)
-		.setEntityWidth(textbox, 70)
-		.setEntityMinWidth(textbox, 300)
-		.setEntityHeight(textbox, 50)
-		.setEntityMinHeight(textbox, 25);
+			.setEntityWidth(textbox, 70)
+			.setEntityMinWidth(textbox, 300)
+			.setEntityHeight(textbox, 50)
+			.setEntityMinHeight(textbox, 25);
 
 		spacer = new Entity();
 		this.layout.add2Row(spacer, row)
-		.setEntityWidth(spacer, 5)
-		.setEntityHeight(spacer, 50);
+			.setEntityWidth(spacer, 5)
+			.setEntityHeight(spacer, 50);
 
 		const layout = new Layout(Zero(), Zero(), 'horizontal', 25, 50);
 		this.layout.add2Row(layout, row)
-		.setEntityWidth(layout, 25)
-		.setEntityMinWidth(layout, 300)
-		.setEntityHeight(layout, 50)
-		.setEntityMinHeight(layout, 50);
+			.setEntityWidth(layout, 25)
+			.setEntityMinWidth(layout, 300)
+			.setEntityHeight(layout, 50)
+			.setEntityMinHeight(layout, 50);
 
 		// Create button layout
 		this.createLayoutButton('game.menu.b1options');
@@ -77,21 +75,13 @@ export default class MenuScene extends Scene {
 
 	createLayoutButton(layout, languageKey) {
 		const button = Button.create(Zero(), () => {})
-		.rectButton(Colors.button);
+			.rectButton(Colors.button);
 		// Add button before assigning text,
 		// so that the canvas context is available for measureText()
 		layout.add(button);
 
 		button.textButton('', fonts.button)
-		.seti18nText(this.parent, 'game.menu.b1options');
-	}
-
-	onGoto() {
-
-	}
-
-	networkIn(handle, data) {
-
+			.seti18nText(this.parent, languageKey);
 	}
 
 	playerName(name) {

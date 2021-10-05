@@ -41,9 +41,9 @@ let languages_available = [];
 if (configuration.getConfig('autodetect_languages')) {
 	languages_available = fs.readdirSync(path.join(__dirname, language_dir)).filter((file) => {
 		return fs.lstatSync(path.join(__dirname, language_dir, file)).isDirectory();
-	})
+	});
 } else {
-	languages_available = configuration.getConfig('languages_available')
+	languages_available = configuration.getConfig('languages_available');
 }
 
 // Start the server.
@@ -58,12 +58,12 @@ server.listen(port, () => {
 		backend: {
 			loadPath: `http://localhost:${port}${language_dir}/{{lng}}/{{ns}}.json`
 		}
-	}, (err, t) => {
+	}, (err) => {
 		if (err) return console.error(err);
 
 		console.info(i18next.t('server.start', { port: port }));
 
 		// Start the game engine
-		const engine = new Engine(io, configuration, languages_available, default_language);
+		new Engine(io, configuration, languages_available, default_language);
 	});
 });

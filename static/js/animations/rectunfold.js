@@ -1,5 +1,4 @@
 import Entity from '../entities/entity.js';
-import V2 from '../geo/v2.js';
 
 /* Animation for the RectEntity
 Add to any RectEntity for animation. Will draw the rectangle from top to bottom

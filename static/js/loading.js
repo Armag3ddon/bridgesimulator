@@ -39,4 +39,4 @@ window.onload = async () => {
 			game.goto('PasswordScene');
 		});
 	});
-}
+};

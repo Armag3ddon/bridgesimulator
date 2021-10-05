@@ -65,7 +65,7 @@ export default class GameCore {
 		setInterval(this.updateFramerate.bind(this), 1000);
 
 		this.loop = this.loop.bind(this);
-		this.socket = io();
+		this.socket = io(); // eslint-disable-line no-undef
 		var self = this;
 		this.socket.on('getPlayerName', this.playerName.bind(this));
 		this.socket.on('gamestate', (data) => { self.networkIn(data); });
@@ -146,7 +146,7 @@ export default class GameCore {
 		this.lastUpdate = now;
 		this.frames++;
 
-		requestAnimFrame(() => this.loop());
+		window.requestAnimFrame(() => this.loop());
 	}
 
 	update(delta) {
@@ -175,7 +175,7 @@ export default class GameCore {
 		this.socket.emit(handle, data, callback);
 	}
 
-	networkError(error) {
+	networkError() {
 		this.goto('ErrorScene');
 	}
 
