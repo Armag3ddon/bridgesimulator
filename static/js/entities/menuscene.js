@@ -27,12 +27,16 @@ export default class MenuScene extends Scene {
 		let spacer = new Entity();
 		this.layout.add2Row(spacer, row)
 			.setEntityWidth(spacer, 100)
-			.setEntityMinHeight(spacer, 5);
+			.setEntityMinHeight(spacer, 5)
+			.setEntityHorizontalSpacer(spacer);
+
+		row = this.layout.createRow();
 
 		spacer = new Entity();
 		this.layout.add2Row(spacer, row)
 			.setEntityWidth(spacer, 5)
-			.setEntityHeight(spacer, 5);
+			.setEntityHeight(spacer, 5)
+			.setEntityVerticalSpacer(spacer);
 
 		this.hello = new TextEntity(Zero(), '', fonts.friendly);
 		if (this.parent.name) {
@@ -55,9 +59,10 @@ export default class MenuScene extends Scene {
 		spacer = new Entity();
 		this.layout.add2Row(spacer, row)
 			.setEntityWidth(spacer, 5)
-			.setEntityHeight(spacer, 50);
+			.setEntityHeight(spacer, 50)
+			.setEntityVerticalSpacer(spacer);
 
-		const layout = new Layout(Zero(), Zero(), 'horizontal', 25, 50);
+		const layout = new Layout(Zero(), Zero(), 'vertical', 10, 50);
 		this.layout.add2Row(layout, row)
 			.setEntityWidth(layout, 25)
 			.setEntityMinWidth(layout, 300)
@@ -65,16 +70,16 @@ export default class MenuScene extends Scene {
 			.setEntityMinHeight(layout, 50);
 
 		// Create button layout
-		this.createLayoutButton('game.menu.b1options');
-		this.createLayoutButton('game.menu.b2server');
-		this.createLayoutButton('game.menu.b2roles');
-		this.createLayoutButton('game.menu.b2start');
+		this.createLayoutButton(layout, 'game.menu.b1options');
+		this.createLayoutButton(layout, 'game.menu.b2server');
+		this.createLayoutButton(layout, 'game.menu.b3roles');
+		this.createLayoutButton(layout, 'game.menu.b4start');
 
 		this.resize(this.parent);
 	}
 
-	createLayoutButton(layout, languageKey) {
-		const button = Button.create(Zero(), () => {})
+	createLayoutButton(layout, languageKey, callback) {
+		const button = Button.create(Zero(), callback)
 			.rectButton(Colors.button);
 		// Add button before assigning text,
 		// so that the canvas context is available for measureText()

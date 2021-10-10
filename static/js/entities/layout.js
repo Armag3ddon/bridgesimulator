@@ -19,12 +19,12 @@ export default class Layout extends Entity {
 		let size;
 		const minimum = amount * this.flexibleminimum;
 		// There is enough space
-		if (minimum + spacing * (amount - 1) > length) {
+		if (minimum + spacing * (amount - 1) < length) {
 			size = Math.floor((length - spacing * (amount - 1)) / amount);
 		} else {
 			// Shrink spacing to a maximum of 0
 			size = this.flexibleminimum;
-			spacing = Math.max(0, Math.floor((length - size * amount)));
+			spacing = Math.max(0, Math.floor((length - size * amount) / (amount - 1)));
 		}
 		return { size: size, spacing: spacing };
 	}

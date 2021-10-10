@@ -9,10 +9,13 @@ export default class Scene extends Entity {
 	 * @extends Entity
 	 * @param {String} name - The name of this scene. Only one scene of any given name can be added to GameCore.
 	 */
-	constructor(name) {
+	constructor() {
 		super();
-		this.name = name;
 		this.bgcolor = Colors.defaultSceneBackground;
+	}
+
+	onDynamic(json) {
+		this.name = json.name;
 	}
 
 	/**

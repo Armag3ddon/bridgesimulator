@@ -1,4 +1,5 @@
 import Entity from './entity.js';
+import fonts from '../definition/fonts.js';
 
 /** @module ResponsiveLayout */
 export default class ResponsiveLayout extends Entity {
@@ -7,11 +8,40 @@ export default class ResponsiveLayout extends Entity {
 	 * Sub-entities can be sorted into rows but a row can get stacked vertically on narrow screens.
 	 * @extends Entity
 	 */
-	constructor(position, size) {
-		super(position, size);
+	constructor() {
+		super();
 
 		// First element of rows is used to store layouting information on all rows
 		this.rows = [[null]];
+	}
+
+	async onDynamic(json) {
+		for (const row in json.rows) {
+			let newRow = this.createRow(parseInt(row));
+			for (const entity in json.rows[row]) {
+				const module = await import('./' + entity.toLowerCase() + '.js');
+				const newEntity = await module.default.create(json.rows[row][entity]);
+
+				if (json.rows[row][entity].width)
+					this.setEntityWidth(newEntity, json.rows[row][entity].width);
+				if (json.rows[row][entity].min_width)
+					this.setEntityMinWidth(newEntity, json.rows[row][entity].min_width);
+				if (json.rows[row][entity].height)
+					this.setEntityHeight(newEntity, json.rows[row][entity].height);
+				if (json.rows[row][entity].min_height)
+					this.setEntityMinHeight(newEntity, json.rows[row][entity].min_height);
+				if (json.rows[row][entity].vertical_spacer)
+					this.setEntityVerticalSpacer(newEntity);
+				if (json.rows[row][entity].horizontal_spacer)
+					this.setEntityHorizontalSpacer(newEntity);
+				
+				this.add2Row(newEntity, newRow);
+			}
+		}
+	}
+
+	onAdded() {
+		this.resize();
 	}
 
 	/**
@@ -56,42 +86,111 @@ export default class ResponsiveLayout extends Entity {
 	}
 
 	setEntityMinWidth(entity, width) {
-		entity._RL_minwidth = width;
+		entity._RL_minwidth = this.parseLength(width);
 
 		return this;
 	}
 
-	setEntityMinHeight(entity, width) {
-		entity._RL_minheight = width;
+	setEntityMinHeight(entity, height) {
+		entity._RL_minheight = this.parseLength(height);
 
 		return this;
+	}
+
+	setEntityHorizontalSpacer(entity) {
+		entity._RL_hspacer = true;
+	}
+
+	setEntityVerticalSpacer(entity) {
+		entity._RL_vspacer = true;
+	}
+	
+	parseLength(value) {
+		if (Number.isInteger(value)) return value;
+		if (typeof value === 'string') {
+			if (!isNaN(parseInt(value))) return parseInt(value);
+			if (value.substr(0, 5) == 'fonts') {
+				const fontname = value.slice(6);
+				return parseInt(fonts[fontname].size);
+			}
+		}
+		return 0;
 	}
 
 	onResize() {
 		this.size = this.parent.size.clone();
 
-		let rowlength, marginleft, marginright, vstack = false;
+		let rowlength, rowminlength, flexibles, flexiblereduction, marginleft, marginright, vstack = false;
 		let rowheight, allheight = 0, redoheight;
 		let x;
 		for (let i = 1; i < this.rows.length; i++) {
 			rowlength = this.calculateRowWidth(i);
+			rowminlength = this.calculateRowMinWidth(i);
+			flexiblereduction = 0;
+			flexibles = [];
 
-			if (rowlength > this.size.x) {
-				// Try stacking entities on top of each other
-				// if redoheight is true at the end, reshuffling might take place.
-				// Each entity gets treated as a single row
+			// The combined minimum sizes of all entities exceed the maximum length.
+			if (rowminlength > this.size.x) {
+				// This will stack entities on top of each other, treating each as their own row.
+				// Entities that are marked as vertical spacer will be discarded entirely.
+				// However, if this stacking exceeds the maximum height, redoheight will be set to
+				// trigger reshuffling methods.
 				vstack = true;
+			} else if(rowlength > this.size.x) {
+				// The combined sizes of all entities currently exceeds the maximum length.
+				// flexiblereduction will set to be number of pixels that must be reduced. When
+				// assigning sizes, the reduction will be applied as evenly as possible (with
+				// respect to minWidth). flexibles will hold the indices of entities that can be
+				// reduced in size.
+				vstack = false;
+				flexiblereduction = rowlength - this.size.x;
+				this.rows[i].forEach((entity, index) => {
+					if (this.getEntityShrinkable(entity))
+						flexibles.push(index);
+					entity._RL_flexiblereduction = 0;
+				}, this);
+				// Pre-Pre-Assign a reduction value to each entity in the row until all leftover
+				// space is gone. > 1 to account for pixel rounding.
+				while (flexiblereduction > 1) {
+					const reductionperentity = Math.floor(flexiblereduction / flexibles.length);
+					for (let j = 0; j < this.rows[i].length; j++) {
+						if (flexibles.includes(j)) {
+							const reduction = this.calculateEntityShrink(
+								this.rows[i][j], reductionperentity
+							);
+							this.rows[i][j]._RL_flexiblereduction += reduction;
+							flexiblereduction -= reduction;
+							// If this entities has been shrunk down to minwidth, do no longer count
+							// it as shrinkable
+							if (reduction < reductionperentity) {
+								flexibles.splice(flexibles.indexOf(j));
+							}
+						}
+					}
+				}
 			} else {
+				// Nothing needs to be done, all entities fit
 				vstack = false;
 			}
 			this.rows[0][i].vstack = vstack;
+
 			rowheight = this.calculateRowHeight(i);
 
 			x = 0;
 			// Pre-Assign the dimensions
 			for (let j = 0; j < this.rows[i].length; j++) {
-				this.rows[i][j]._RL_newsizex = this.calculateEntityWidth(this.rows[i][j]);
-				this.rows[i][j]._RL_newsizey = this.calculateEntityHeight(this.rows[i][j]);
+				// If stacking entities vertically, ignore spacers
+				if (vstack && this.rows[i][j]._RL_vspacer) {
+					this.rows[i][j]._RL_newsizex = 0;
+					this.rows[i][j]._RL_newsizey = 0;
+				} else {
+					this.rows[i][j]._RL_newsizex = this.calculateEntityWidth(this.rows[i][j]);
+					if (this.rows[i][j]._RL_flexiblereduction) {
+						this.rows[i][j]._RL_newsizex -= this.rows[i][j]._RL_flexiblereduction;
+					}
+					this.rows[i][j]._RL_newsizey = this.calculateEntityHeight(this.rows[i][j]);
+				}
+
 				this.rows[i][j]._RL_newx = x;
 				this.rows[i][j]._RL_newy = allheight;
 
@@ -119,6 +218,7 @@ export default class ResponsiveLayout extends Entity {
 				this.rows[i][j].position.y = this.rows[i][j]._RL_newy;
 
 				this.rows[i][j]._RL_newsizex = null;
+				this.rows[i][j]._RL_flexiblereduction = null;
 				this.rows[i][j]._RL_newsizey = null;
 				this.rows[i][j]._RL_newx = null;
 				this.rows[i][j]._RL_newy = null;
@@ -126,14 +226,23 @@ export default class ResponsiveLayout extends Entity {
 		}
 	}
 
-	// Get the combined size of all entities in a given row,
-	// given our current dimensions.
+	// Get the combined size of all entities in a given row, given our current dimensions.
 	calculateRowWidth(row) {
 		let width = 0;
 		for (let i = 0; i < this.rows[row].length; i++) {
 			width += this.calculateEntityWidth(this.rows[row][i]);
 		}
 		return width;
+	}
+
+	// Check just how much space all entities with minimum widths take up. Every entity without a
+	// MinWidth setting is treated as a space that can go down to nothing.
+	calculateRowMinWidth(row) {
+		let minwidth = 0;
+		for (let i = 0; i < this.rows[row].length; i++) {
+			minwidth += this.rows[row][i]._RL_minwidth || 0;
+		}
+		return minwidth;
 	}
 
 	calculateRowHeight(row) {
@@ -150,6 +259,31 @@ export default class ResponsiveLayout extends Entity {
 	// Get the dimension of a given sub-entity
 	calculateEntityWidth(entity) {
 		return Math.floor(Math.max(this.size.x * (entity._RL_width || 0) / 100, entity._RL_minwidth || 0));
+	}
+
+	// Get how many pixels this entity can be shrunk without violating mindwidth
+	calculateEntityShrink(entity, amount) {
+		let width = this.calculateEntityWidth(entity) - entity._RL_flexiblereduction;
+		// Entity can be shrunk to 0
+		if (!entity._RL_minwidth) {
+			// Make sure that the entity doesn't get smaller than 0
+			return Math.min(amount, width);
+		}
+		// Make sure that the entity doesn't get smaller than minwidth
+		return Math.min(width - entity._RL_minwidth, amount);
+	}
+
+	// Check whether a given entity can be shrunk.
+	getEntityShrinkable(entity) {
+		if (!entity._RL_minwidth) {
+			// No minwidth means the entity can be shrunk to 0.
+			return true;
+		}
+		if (this.calculateEntityWidth(entity) > entity._RL_minwidth) {
+			// Minwidth is not yet reached, entity can be shrunk further down
+			return true;
+		}
+		return false;
 	}
 
 	calculateEntityHeight(entity) {

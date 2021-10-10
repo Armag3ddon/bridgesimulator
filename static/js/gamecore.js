@@ -29,6 +29,10 @@ SOFTWARE.
 import V2 from './geo/v2.js';
 import fonts from './basic/fonts.js';
 import Colors from './definition/colors.js';
+import mouse from './basic/mouse.js';
+import PasswordScene from './entities/passwordscene.js';
+import ErrorScene from './entities/errorscene.js';
+import Director from './basic/director.js';
 
 window.requestAnimFrame = ((() =>
 	window.requestAnimationFrame ||
@@ -74,10 +78,25 @@ export default class GameCore {
 			console.log(event + ' @ ' + data);
 		});
 
+		this.director = new Director(this);
 		this.scenes = [];
 		this.scene = null;
 
 		this.networkOut('getPlayerName');
+	}
+
+	startup() {
+		mouse.init(this);
+		this.run();
+
+		this.loadLanguages(() => {
+			this.director.loadBasicScenes(() => {
+				this.addScene(new PasswordScene('user', 'MenuScene'));
+				this.addScene(new ErrorScene());
+
+				this.goto('PasswordScene');
+			});
+		});
 	}
 
 	loadLanguages(callback) {
@@ -85,6 +104,16 @@ export default class GameCore {
 		this.socket.emit('requestLanguages', (response) => {
 			self.languages_available = response.all;
 			self.current_language = response.default;
+			callback();
+		});
+	}
+
+	loadBasicScenes(callback) {
+		var self = this;
+		this.socket.emit('requestBasicScenes', (response) => {
+			for (let i = 0; i < response.length; i++) {
+				self.director.constructScene(response[i]);
+			}
 			callback();
 		});
 	}

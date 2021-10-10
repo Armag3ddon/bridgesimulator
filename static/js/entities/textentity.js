@@ -11,10 +11,9 @@ export default class TextEntity extends Entity {
 	 * @param {JSON} font - A font definition in the style of definition/fonts.
 	 * @param {V2} size - The size of this entity. The size is ignored for text display unless one of the options that make use of the size is set.
 	 */
-	constructor(pos, text, font, size) {
-		super(pos, size);
+	constructor() {
+		super();
 
-		this.font = font;
 		// If true, line breaks will be put in whenever the text exceeds
 		// our dimensions
 		this.wrap = false;
@@ -37,8 +36,6 @@ export default class TextEntity extends Entity {
 		// How many lines of text (not counting sub-lines created by
 		// calculateWrap) does this entity keep in store
 		this.bufferSize = 20;
-
-		this.setText(text);
 	}
 
 	/**

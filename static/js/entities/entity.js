@@ -1,18 +1,44 @@
-import V2 from '../geo/v2.js';
 import {Zero} from '../geo/v2.js';
-import  Rect from '../geo/rect.js';
-import  mouse from '../basic/mouse.js';
+import Rect from '../geo/rect.js';
+import mouse from '../basic/mouse.js';
 import {arrayRemove} from '../basic/util.js';
 import GameCore from '../gamecore.js';
 
 export default class Entity {
-	constructor(pos, size) {
-		this.position = pos || Zero();
-		this.size = size || Zero();
+	constructor() {
+		this.position = Zero();
+		this.size = Zero();
 		this.entities = [];
 		this.blocking = [];
 		this.parent = null;
 		this.visible = true;
+	}
+
+	static async create(json) {
+		let newEntity;
+		if (this.onCreate) {
+			newEntity = this.onCreate(json);
+		} else {
+			newEntity = new this();
+		}
+		if (json.position) newEntity.setPosition(json.position.x, json.position.y);
+		if (json.size) newEntity.setSize(json.size.x, json.size.y);
+
+		await newEntity.dynamic(json);
+		if (newEntity.onDynamic)
+			await newEntity.onDynamic(json);
+		return newEntity;
+	}
+
+	async dynamic(json) {
+		if (json.entities) {
+			for (const entity in json.entities) {
+				const module = await import('./' + entity.toLowerCase() + '.js');
+				const newEntity = await module.default.create(json.entities[entity]);
+				this.add(newEntity);
+				if (newEntity.postDynamic) newEntity.postDynamic(this);
+			}
+		}
 	}
 
 	setSize(w, h) {
@@ -20,27 +46,23 @@ export default class Entity {
 		this.size.y = h;
 	}
 
-	inheritSize() {
-		const origin = new V2(0, 0);
-		const end = new V2(0, 0);
-
-		for (let i = 0; i < this.entities.length; i++)
-			if (this.entities[i].size) {
-				const entity = this.entities[i];
-				const p2 = entity.position.sum(entity.size);
-
-				origin.x = Math.min(entity.position.x, origin.x);
-				origin.y = Math.min(entity.position.y, origin.y);
-				end.x = Math.max(p2.x, end.x);
-				end.y = Math.max(p2.y, end.y);
-			}
-
-		this.size = end.sub(origin);
-	}
-
 	setPosition(x, y) {
 		this.position.x = x;
 		this.position.y = y;
+	}
+
+	center() {
+		if (!this.parent) return;
+		this.position.x = Math.floor(this.parent.size.x / 2 - this.size.x / 2);
+		this.position.y = Math.floor(this.parent.size.y / 2 - this.size.y / 2);
+	}
+
+	add(entity) {
+		if(entity.setParent)
+			entity.setParent(this);
+		this.entities.push(entity);
+		if (entity.onAdded)
+			entity.onAdded();
 	}
 
 	setParent(p) {
@@ -57,14 +79,6 @@ export default class Entity {
 			}
 		}
 		return parent;
-	}
-
-	add(entity) {
-		if(entity.setParent)
-			entity.setParent(this);
-		this.entities.push(entity);
-		if (entity.onAdded)
-			entity.onAdded();
 	}
 
 	relativeMouse() {
@@ -129,6 +143,7 @@ export default class Entity {
 
 	draw(ctx) {
 		if (!this.visible) return;
+
 		ctx.save();
 		ctx.translate(this.position.x | 0, this.position.y | 0);
 
@@ -174,11 +189,5 @@ export default class Entity {
 		} else {
 			return this.dispatchReverse(this.entities, 'mouseup', pos);
 		}
-	}
-
-	center() {
-		if (!this.parent) return;
-		this.position.x = Math.floor(this.parent.size.x / 2 - this.size.x / 2);
-		this.position.y = Math.floor(this.parent.size.y / 2 - this.size.y / 2);
 	}
 }

@@ -1,9 +1,12 @@
 {
 	"static_directory": "/static",
 	"language_directory": "/locales",
+	"scenario_directory": "/scenarios",
+	"core_directory": "/core",
+	"custom_directory": "/custom",
+	"pug_directory": "/views",
 	"autodetect_languages": true,
 	"languages_available": [],
-	"pug_directory": "/views",
 	"server_port": 5000,
 	"server_password": "",
 	"server_language": "en",

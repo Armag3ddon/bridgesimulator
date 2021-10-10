@@ -1,8 +1,15 @@
 {
 	"server": {
-		"start": "Starting server on port {{port}}.",
+		"start": "[INFO] Starting server on port {{port}}.",
 		"socket": {
-			"connect": "A new client with id {{id}} connected."
+			"connect": "[INFO] A new client with id {{id}} connected."
+		},
+		"custom_json": "[INFO] File {{filepath}} got amended by a custom file when loading.",
+		"warnings": {
+
+		},
+		"errors": {
+			"failed_json": "[ERROR]: Failed to load JSON from \"{{filepath}}\"."
 		}
 	},
 	"game": {

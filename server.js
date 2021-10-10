@@ -59,11 +59,12 @@ server.listen(port, () => {
 			loadPath: `http://localhost:${port}${language_dir}/{{lng}}/{{ns}}.json`
 		}
 	}, (err) => {
-		if (err) return console.error(err);
+		if (err) return console.error('There was a problem starting the language module (i18next): ' + err);
 
 		console.info(i18next.t('server.start', { port: port }));
 
 		// Start the game engine
-		new Engine(io, configuration, languages_available, default_language);
+		const engine = new Engine(io, configuration, languages_available, default_language);
+		engine.run();
 	});
 });
