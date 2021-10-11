@@ -19,7 +19,9 @@
 					"TextEntity": {
 						"width": 95,
 						"height": 5,
-						"minheight": "fonts.friendly"
+						"minheight": "fonts.friendly",
+						"font": "friendly",
+						"sceneHandle": "hello"
 					}
 				},
 				"3": {
@@ -27,7 +29,8 @@
 						"width": 70,
 						"min_width": 300,
 						"height": 50,
-						"min_height": 25
+						"min_height": 25,
+						"color": "textbox"
 					},
 					"Entity": {
 						"width": 5,

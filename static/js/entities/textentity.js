@@ -1,5 +1,6 @@
 import Entity from './entity.js';
 import fonts from '../basic/fonts.js';
+import fontDefinitions from '../definition/fonts.js';
 
 /** @module TextEntity */
 export default class TextEntity extends Entity {
@@ -36,6 +37,9 @@ export default class TextEntity extends Entity {
 		// How many lines of text (not counting sub-lines created by
 		// calculateWrap) does this entity keep in store
 		this.bufferSize = 20;
+
+		this.text = [];
+		this.font = fontDefinitions.small;
 	}
 
 	/**
@@ -82,7 +86,7 @@ export default class TextEntity extends Entity {
 	 * Like addText(). Request a localised string from the server. The text will be added when the response from the server is received.
 	 * @param {*} key - Can be either string, array or JSON. String: retrieves a single line; Array: filled with strings, retrieves multiple lines; JSON: in the form of { request: String/Array, keys: { ... } }, keys will be passed along to i18next for interpolation.
 	 */
-	addi18nText(gamecore, key) {
+	addi18nText(key) {
 		window.gamecore.geti18n(key, this.addText.bind(this));
 	}
 
@@ -205,6 +209,8 @@ export default class TextEntity extends Entity {
 	// Calculate the dimensions based on the text to be displayed
 	// Incompatible with setWrap because with that, you supply the size
 	measureArea() {
+		if (!this.text.length) return;
+
 		let longestline = 0;
 		for (let i = 1; i < this.text.length; i++) {
 			if (this.text[i].length > longestline)
@@ -214,6 +220,18 @@ export default class TextEntity extends Entity {
 		this.size.x = Math.ceil(
 			window.gamecore.bufferCtx.measureText(this.text[longestline]).width);
 		this.size.y = this.calculateLineHeight() * this.text.length;
+	}
+
+	onDynamic(json) {
+		if (json.font) this.font = fontDefinitions[json.font];
+		if (json.textbox) this.setTextboxstyle();
+		if (json.bottom2top) this.setBottom2Top();
+		if (json.lineheight) this.setLineHeight(parseInt(json.lineheight));
+	}
+
+	onPostDynamic(json) {
+		if (json.text) this.setText(json.text);
+		if (json.i18ntext) this.seti18nText(json.i18ntext);
 	}
 
 	onAdded() {

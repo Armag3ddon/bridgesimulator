@@ -7,10 +7,11 @@ export default class Director {
 		this.parent = gamecore;
 	}
 
-	loadBasicScenes(callback) {
-		this.parent.networkOut('requestBasicScenes', null, (scenes) => {
+	async loadBasicScenes(callback) {
+		var self = this;
+		this.parent.networkOut('requestBasicScenes', null, async (scenes) => {
 			for (let i = 0; i < scenes.length; i++) {
-				this.constructScene(scenes[i]);
+				await this.constructScene(scenes[i]);
 			}
 
 			callback();
@@ -26,8 +27,12 @@ export default class Director {
 			scene = new Scene(sceneJSON.name);
 		}
 
-		console.log('construct!');
-		await scene.dynamic(sceneJSON);
+		const handles = {};
+		await scene.dynamic(sceneJSON, handles);
+		for (const handle in handles) {
+			scene[handle] = handles[handle];
+		}
+		console.dir(scene);
 
 		this.parent.addScene(scene);
 	}

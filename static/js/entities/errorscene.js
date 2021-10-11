@@ -29,7 +29,7 @@ export default class ErrorScene extends Scene {
 		this.add(this.messenger);
 		const effect = new AnimationRectUnfold(2000, () => { this.messenger.visible = true; });
 		this.box.add(effect);
-		this.messenger.seti18nText(this.parent, 'game.error.connection_lost');
+		this.messenger.seti18nText('game.error.connection_lost');
 		this.messenger.visible = false;
 	}
 

@@ -13,7 +13,7 @@ export default class Entity {
 		this.visible = true;
 	}
 
-	static async create(json) {
+	static async create(json, sceneHandles) {
 		let newEntity;
 		if (this.onCreate) {
 			newEntity = this.onCreate(json);
@@ -22,20 +22,22 @@ export default class Entity {
 		}
 		if (json.position) newEntity.setPosition(json.position.x, json.position.y);
 		if (json.size) newEntity.setSize(json.size.x, json.size.y);
+		if (json.sceneHandle) sceneHandles[json.sceneHandle] = newEntity;
 
-		await newEntity.dynamic(json);
-		if (newEntity.onDynamic)
-			await newEntity.onDynamic(json);
+		await newEntity.dynamic(json, sceneHandles);
+
+		if (newEntity.onDynamic) await newEntity.onDynamic(json, sceneHandles);
+
 		return newEntity;
 	}
 
-	async dynamic(json) {
+	async dynamic(json, sceneHandles) {
 		if (json.entities) {
 			for (const entity in json.entities) {
 				const module = await import('./' + entity.toLowerCase() + '.js');
-				const newEntity = await module.default.create(json.entities[entity]);
+				const newEntity = await module.default.create(json.entities[entity], sceneHandles);
 				this.add(newEntity);
-				if (newEntity.postDynamic) newEntity.postDynamic(this);
+				if (newEntity.postDynamic) newEntity.postDynamic(json.entities[entity], sceneHandles);
 			}
 		}
 	}
@@ -108,7 +110,6 @@ export default class Entity {
 	}
 
 	getArea() {
-		if (this.size.x == 0 && this.size.y == 0) this.inheritSize();
 		return new Rect(Zero(), this.size);
 	}
 

@@ -15,12 +15,12 @@ export default class ResponsiveLayout extends Entity {
 		this.rows = [[null]];
 	}
 
-	async onDynamic(json) {
+	async onDynamic(json, sceneHandles) {
 		for (const row in json.rows) {
 			let newRow = this.createRow(parseInt(row));
 			for (const entity in json.rows[row]) {
 				const module = await import('./' + entity.toLowerCase() + '.js');
-				const newEntity = await module.default.create(json.rows[row][entity]);
+				const newEntity = await module.default.create(json.rows[row][entity], sceneHandles);
 
 				if (json.rows[row][entity].width)
 					this.setEntityWidth(newEntity, json.rows[row][entity].width);
@@ -40,7 +40,7 @@ export default class ResponsiveLayout extends Entity {
 		}
 	}
 
-	onAdded() {
+	postDynamic() {
 		this.resize();
 	}
 

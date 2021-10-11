@@ -18,7 +18,7 @@ export default class PasswordScene extends Scene {
 
 		// Must be either 'user' or 'admin'
 		this.passwordName = passwordName;
-		this.backToScene = backTo.name;
+		this.backToScene = backTo;
 
 		this.waiting = true;
 		this.passwordNeeded = true;
@@ -58,9 +58,9 @@ export default class PasswordScene extends Scene {
 		this.messenger.setMargin(5);
 		this.messenger.setTextboxstyle();
 		if (this.passwordName == 'user')
-			this.messenger.seti18nText(this.parent, { request: 'game.password.hello', keys: { site: document.location.origin } });
+			this.messenger.seti18nText({ request: 'game.password.hello', keys: { site: document.location.origin } });
 		if (this.passwordName == 'admin')
-			this.messenger.seti18nText(this.parent, 'game.password.admin');
+			this.messenger.seti18nText('game.password.admin');
 	}
 
 	onGoto() {

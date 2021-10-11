@@ -1,12 +1,22 @@
 import Entity from './entity.js';
-import V2 from '../geo/v2.js';
+import {Zero} from '../geo/v2.js';
+import Colors from '../definition/colors.js';
 
 export default class RectEntity extends Entity {
-	constructor(pos, size, color, lineWidth) {
-		super(pos, size);
+	constructor() {
+		super();
+		this.color = null;
+		this.drawArea = Zero();
+		this.lineWidth = 1;
+	}
+
+	setColor(color) {
 		this.color = color;
-		this.drawArea = new V2(this.size.x, this.size.y);
-		this.lineWidth = lineWidth || 1;
+	}
+
+	onDynamic(json) {
+		this.color = Colors[json.color];
+		if (json.lineWidth) this.lineWidth = json.lineWidth;
 	}
 
 	onDraw(ctx) {

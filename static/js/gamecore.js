@@ -94,6 +94,7 @@ export default class GameCore {
 				this.addScene(new PasswordScene('user', 'MenuScene'));
 				this.addScene(new ErrorScene());
 
+				this.run();
 				this.goto('PasswordScene');
 			});
 		});
