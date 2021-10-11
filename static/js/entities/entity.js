@@ -22,6 +22,13 @@ export default class Entity {
 		}
 		if (json.position) newEntity.setPosition(json.position.x, json.position.y);
 		if (json.size) newEntity.setSize(json.size.x, json.size.y);
+		if (json.functions) {
+			for (const functionName in json.functions) {
+				const newFunction = new Function(json.functions[functionName].arguments,
+					json.functions[functionName].body);
+				this[functionName] = newFunction;
+			}
+		}
 		if (json.sceneHandle) sceneHandles[json.sceneHandle] = newEntity;
 
 		await newEntity.dynamic(json, sceneHandles);

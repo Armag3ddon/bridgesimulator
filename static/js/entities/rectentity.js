@@ -15,7 +15,7 @@ export default class RectEntity extends Entity {
 	}
 
 	onDynamic(json) {
-		this.color = Colors[json.color];
+		this.setColor(Colors[json.color]);
 		if (json.lineWidth) this.lineWidth = json.lineWidth;
 	}
 

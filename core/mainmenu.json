@@ -1,5 +1,11 @@
 {
 	"name": "MenuScene",
+	"functions": {
+		"playerName": {
+			"arguments": "name",
+			"body": "this.hello.seti18nText({ request: 'game.menu.hello', keys: { name: name } });"
+		}
+	},
 	"entities": {
 		"ResponsiveLayout": {
 			"rows": {

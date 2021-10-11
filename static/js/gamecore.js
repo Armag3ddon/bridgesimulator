@@ -81,8 +81,6 @@ export default class GameCore {
 		this.director = new Director(this);
 		this.scenes = [];
 		this.scene = null;
-
-		this.networkOut('getPlayerName');
 	}
 
 	startup() {
@@ -96,6 +94,7 @@ export default class GameCore {
 
 				this.run();
 				this.goto('PasswordScene');
+				this.networkOut('getPlayerName');
 			});
 		});
 	}

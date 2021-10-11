@@ -32,7 +32,13 @@ export default class Director {
 		for (const handle in handles) {
 			scene[handle] = handles[handle];
 		}
-		console.dir(scene);
+		if (sceneJSON.functions) {
+			for (const functionName in sceneJSON.functions) {
+				const newFunction = new Function(sceneJSON.functions[functionName].arguments,
+					sceneJSON.functions[functionName].body);
+				scene[functionName] = newFunction;
+			}
+		}
 
 		this.parent.addScene(scene);
 	}
