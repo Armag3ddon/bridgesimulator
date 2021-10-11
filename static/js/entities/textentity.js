@@ -75,7 +75,7 @@ export default class TextEntity extends Entity {
 	 * @param {*} key - Can be either string, array or JSON. String: retrieves a single line; Array: filled with strings, retrieves multiple lines; JSON: in the form of { request: String/Array, keys: { ... } }, keys will be passed along to i18next for interpolation.
 	 */
 	seti18nText(key) {
-		window.gamecore.geti18n(key, this.setText.bind(this);
+		window.gamecore.geti18n(key, this.setText.bind(this));
 	}
 
 	/**
@@ -83,7 +83,7 @@ export default class TextEntity extends Entity {
 	 * @param {*} key - Can be either string, array or JSON. String: retrieves a single line; Array: filled with strings, retrieves multiple lines; JSON: in the form of { request: String/Array, keys: { ... } }, keys will be passed along to i18next for interpolation.
 	 */
 	addi18nText(gamecore, key) {
-		window.gamecore.geti18n(key, this.addText.bind(this);
+		window.gamecore.geti18n(key, this.addText.bind(this));
 	}
 
 	/**
