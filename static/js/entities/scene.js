@@ -40,8 +40,8 @@ export default class Scene extends Entity {
 		this.parent.removeScene(this.name);
 	}
 
-	onResize(gamecore) {
-		this.size = gamecore.size.clone();
+	onResize() {
+		this.size = this.parent.size.clone();
 	}
 
 	onDraw(ctx) {

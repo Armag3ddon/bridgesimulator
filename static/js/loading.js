@@ -24,7 +24,7 @@ window.onload = async () => {
 		// Hide loading message
 		document.getElementById('loading').style.display = 'none';
 		// Start the client game
-		const game = new GameCore(config);
-		game.startup();
+		window.gamecore = new GameCore(config);
+		window.gamecore.startup();
 	});
 };

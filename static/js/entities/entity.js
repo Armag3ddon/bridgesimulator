@@ -2,7 +2,6 @@ import {Zero} from '../geo/v2.js';
 import Rect from '../geo/rect.js';
 import mouse from '../basic/mouse.js';
 import {arrayRemove} from '../basic/util.js';
-import GameCore from '../gamecore.js';
 
 export default class Entity {
 	constructor() {
@@ -69,18 +68,6 @@ export default class Entity {
 		this.parent = p;
 	}
 
-	getGameCore() {
-		let parent = this.parent;
-		while (!(parent instanceof GameCore)) {
-			if (parent.parent) {
-				parent = parent.parent;
-			} else {
-				return null;
-			}
-		}
-		return parent;
-	}
-
 	relativeMouse() {
 		if (this.parent && this.parent.relativeMouse)
 			return this.parent.relativeMouse().dif(this.position);
@@ -133,12 +120,12 @@ export default class Entity {
 		return this.getArea().inside(this.relativeMouse());
 	}
 
-	resize(gamecore) {
+	resize() {
 		if (this.onResize) {
-			this.onResize(gamecore);
+			this.onResize();
 		}
-		this.dispatch(this.blocking, 'resize', gamecore);
-		this.dispatch(this.entities, 'resize', gamecore);
+		this.dispatch(this.blocking, 'resize');
+		this.dispatch(this.entities, 'resize');
 	}
 
 	draw(ctx) {

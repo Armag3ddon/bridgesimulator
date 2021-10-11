@@ -72,26 +72,18 @@ export default class TextEntity extends Entity {
 
 	/**
 	 * Like setText(). Request a localised string from the server. The text will be updated when the response from the server is received.
-	 * @param {GameCore} gamecore - The core engine object running.
 	 * @param {*} key - Can be either string, array or JSON. String: retrieves a single line; Array: filled with strings, retrieves multiple lines; JSON: in the form of { request: String/Array, keys: { ... } }, keys will be passed along to i18next for interpolation.
 	 */
-	seti18nText(gamecore, key) {
-		var self = this;
-		gamecore.geti18n(key, (response) => {
-			self.setText(response);
-		});
+	seti18nText(key) {
+		window.gamecore.geti18n(key, this.setText.bind(this);
 	}
 
 	/**
 	 * Like addText(). Request a localised string from the server. The text will be added when the response from the server is received.
-	 * @param {GameCore} gamecore - The core engine object running.
 	 * @param {*} key - Can be either string, array or JSON. String: retrieves a single line; Array: filled with strings, retrieves multiple lines; JSON: in the form of { request: String/Array, keys: { ... } }, keys will be passed along to i18next for interpolation.
 	 */
 	addi18nText(gamecore, key) {
-		var self = this;
-		gamecore.geti18n(key, (response) => {
-			self.addText(response);
-		});
+		window.gamecore.geti18n(key, this.addText.bind(this);
 	}
 
 	/**
@@ -213,14 +205,14 @@ export default class TextEntity extends Entity {
 	// Calculate the dimensions based on the text to be displayed
 	// Incompatible with setWrap because with that, you supply the size
 	measureArea() {
-		const gamecore = this.getGameCore();
 		let longestline = 0;
 		for (let i = 1; i < this.text.length; i++) {
 			if (this.text[i].length > longestline)
 				longestline = i;
 		}
-		fonts.apply(gamecore.bufferCtx, this.font);
-		this.size.x = Math.ceil(gamecore.bufferCtx.measureText(this.text[longestline]).width);
+		fonts.apply(window.gamecore.bufferCtx, this.font);
+		this.size.x = Math.ceil(
+			window.gamecore.bufferCtx.measureText(this.text[longestline]).width);
 		this.size.y = this.calculateLineHeight() * this.text.length;
 	}
 

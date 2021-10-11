@@ -59,10 +59,10 @@ export default class Button extends Entity {
 		this.text.setText(text);
 	}
 
-	seti18nText(gamecore, key) {
+	seti18nText(key) {
 		if (!this.text) return;
 		
-		this.text.seti18nText(gamecore, key);
+		this.text.seti18nText(key);
 	}
 
 	onMouseDown() {
