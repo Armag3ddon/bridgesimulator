@@ -105,3 +105,4 @@ dist
 
 # Project specific
 config.json
+.vscode/launch.json
