@@ -1,21 +1,35 @@
 {
 	"server": {
 		"start": "[INFO] Starting server on port {{port}}.",
-		"socket": {
-			"connect": "[INFO] A new client with id {{id}} connected."
+		"engine": {
+			"starting": "[INFO] Engine starting.",
+			"started": "[INFO] Engine started.",
+			"custom_json": "[INFO] File {{filepath}} got amended by a custom file when loading.",
+			"graphics_loaded_one": "[INFO] Found {{count}} graphic file.",
+			"graphics_loaded_other": "[INFO] Found {{count}} graphic files.",
+			"basic_scenes": "[INFO] Basic scenes loaded.",
+			"fonts_loaded_one": "[INFO] Loaded {{count}} font.",
+			"fonts_loaded_other": "[INFO] Loaded {{count}} fonts."
 		},
-		"custom_json": "[INFO] File {{filepath}} got amended by a custom file when loading.",
+		"socket": {
+			"connect": "[INFO] A new client with id {{id}} connected.",
+			"disconnect": "[INFO] A client has disconnect. Reason:"
+		},
 		"warnings": {
-
+			"no_graphics": "[WARNING] Found no graphic files to load.",
+			"no_fonts": "[WARNING] Found no font definitions to load."
 		},
 		"errors": {
-			"failed_json": "[ERROR]: Failed to load JSON from \"{{filepath}}\"."
+			"failed_json": "[ERROR] Failed to load JSON from \"{{- filepath}}\".",
+			"failed_graphics": "[ERROR] Failed to load graphics from \"{{- filepath}}\". Reason:",
+			"failed_fonts": "[ERROR] There was a problem with font loading.",
+			"failed_scenes": "[ERROR] There was a problem with scene loading."
 		}
 	},
 	"game": {
 		"title": "Generic Bridge Simulator",
 		"player": {
-			"connect": "New player ({{id}}) created."
+			"connect": "[INFO] New player {{name}} ({{id}}) created."
 		},
 		"password": {
 			"hello": "Welcome to {{- request.site}}.",

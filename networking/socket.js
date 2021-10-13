@@ -14,7 +14,7 @@ class Socket {
 	}
 
 	disconnect(reason) {
-		console.info(`A client lost connection. Reason:\n${reason}`);
+		console.info(i18next.t('server.socket.disconnect') + '\n' + reason);
 
 		this.parent.onDisconnection(this);
 	}

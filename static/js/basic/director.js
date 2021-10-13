@@ -8,7 +8,6 @@ export default class Director {
 	}
 
 	async loadBasicScenes(callback) {
-		var self = this;
 		this.parent.networkOut('requestBasicScenes', null, async (scenes) => {
 			for (let i = 0; i < scenes.length; i++) {
 				await this.constructScene(scenes[i]);
@@ -21,8 +20,8 @@ export default class Director {
 	async constructScene(sceneJSON) {
 		let scene;
 		if (sceneJSON.type) {
-			const sceneEntity = await import('../entities/' + sceneJSON + '.js');
-			scene = new sceneEntity();
+			const sceneEntity = await import('../entities/' + sceneJSON.type + '.js');
+			scene = new sceneEntity.default();
 		} else {
 			scene = new Scene(sceneJSON.name);
 		}

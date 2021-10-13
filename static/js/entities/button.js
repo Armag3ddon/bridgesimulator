@@ -5,8 +5,8 @@ import RectEntity from './rectentity.js';
 import {Zero} from '../geo/v2.js';
 
 export default class Button extends Entity {
-	constructor(position, callback) {
-		super(position);
+	constructor() {
+		super();
 
 		this.text = null;
 		this.image = null;
@@ -16,10 +16,6 @@ export default class Button extends Entity {
 			callback(p);
 			return true;
 		};
-	}
-
-	static create (pos, callback) {
-		return new Button(pos, callback);
 	}
 
 	shrink2Fit() {

@@ -18,7 +18,7 @@ class JSONLoader {
 			result = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..' + this.core, filepath + '.json')));
 		} catch {
 			console.error(i18next.t('server.errors.failed_json', { filepath: filepath }));
-			return null;
+			throw null;
 		}
 		try {
 			custom = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..' + this.custom, filepath + '.json')));
@@ -27,7 +27,7 @@ class JSONLoader {
 		}
 		if (custom) {
 			mergeJSON.merge(result, custom);
-			console.info(i18next.t('server.custom_json', { filepath: filepath }));
+			console.info(i18next.t('server.engine.custom_json', { filepath: filepath }));
 		}
 		return result;
 	}

@@ -4,6 +4,7 @@ const Sockets = require('./networking/sockets.js');
 const Players = require('./networking/players.js');
 const Producer =require('./networking/producer.js');
 const JSONLoader = require('./internal/jsonloader.js');
+const i18next = require('i18next');
 
 class Engine {
 	constructor(io, configuration, languages, server_language) {
@@ -22,7 +23,13 @@ class Engine {
 	}
 
 	run() {
+		console.info(i18next.t('server.engine.starting'));
+
+		this.producer.loadGraphics();
+		this.producer.loadFonts();
 		this.producer.loadBasicScenes();
+
+		console.info(i18next.t('server.engine.started'));
 	}
 
 	// Create a new player upon connection. Socket is an instance of networking/socket

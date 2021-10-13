@@ -30,7 +30,6 @@ import V2 from './geo/v2.js';
 import fonts from './basic/fonts.js';
 import Colors from './definition/colors.js';
 import mouse from './basic/mouse.js';
-import PasswordScene from './entities/passwordscene.js';
 import ErrorScene from './entities/errorscene.js';
 import Director from './basic/director.js';
 
@@ -44,7 +43,7 @@ window.requestAnimFrame = ((() =>
 ))();
 
 export default class GameCore {
-	constructor(config) {
+	constructor(config, socket) {
 		window.onresize = this.resize.bind(this);
 		fonts.fitFontSizes(window.screen.height);
 		fonts.applyFontColor(Colors.defaultTextColor);
@@ -69,7 +68,7 @@ export default class GameCore {
 		setInterval(this.updateFramerate.bind(this), 1000);
 
 		this.loop = this.loop.bind(this);
-		this.socket = io(); // eslint-disable-line no-undef
+		this.socket = socket;
 		var self = this;
 		this.socket.on('getPlayerName', this.playerName.bind(this));
 		this.socket.on('gamestate', (data) => { self.networkIn(data); });
@@ -85,16 +84,18 @@ export default class GameCore {
 
 	startup() {
 		mouse.init(this);
-		this.run();
 
 		this.loadLanguages(() => {
 			this.director.loadBasicScenes(() => {
-				this.addScene(new PasswordScene('user', 'MenuScene'));
+				this.networkOut('getPlayerName');
+
 				this.addScene(new ErrorScene());
 
 				this.run();
+				this.scenes['PasswordScene'].setPasswordName('user');
+				this.scenes['PasswordScene'].setBack2Scene('MenuScene');
 				this.goto('PasswordScene');
-				this.networkOut('getPlayerName');
+
 			});
 		});
 	}

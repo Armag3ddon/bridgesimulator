@@ -15,7 +15,7 @@ class Player {
 		this.admin = false;
 		this.language = this.parent.parent.default_language;
 
-		console.info(i18next.t('game.player.connect', { id: id }));
+		console.info(i18next.t('game.player.connect', { id: id, name: this.name }));
 
 		socket.registerNetworkHandle('passwordNeeded', this);
 		socket.registerNetworkHandle('passwordCheck', this);

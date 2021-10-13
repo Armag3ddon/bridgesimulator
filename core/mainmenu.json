@@ -47,7 +47,11 @@
 						"width": 25,
 						"min_width": 300,
 						"height": 50,
-						"min_height": 50
+						"min_height": 50,
+						"entities": {
+							"Button": {
+							}
+						}
 					}
 				}
 			}

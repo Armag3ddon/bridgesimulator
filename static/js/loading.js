@@ -4,27 +4,26 @@ import fonts from './basic/fonts.js';
 import config from './basic/config.js';
 
 window.onload = async () => {
-	// basic graphics
-	graphic.add('/static/img/RegularButton.jpg');
+	const socket = io(); // eslint-disable-line no-undef
 
-	// fonts
-	fonts.add('EdgeOfTheGalaxy', './static/fonts/EdgeOfTheGalaxyRegular.otf', { style: 'normal', weight: 'normal', stretch: 'extra-expanded' });
-	fonts.add('FeelsLikeNostalgia', './static/fonts/FeelsLikeNostalgiaRegular.ttf', { style: 'normal', weight: 'normal' });
-	fonts.add('SeverSansBook', './static/fonts/SeverSansBook.ttf', { style: 'normal', weight: 'normal' });
-	fonts.add('SeverSansBook', './static/fonts/SeverSansBold.ttf', { style: 'normal', weight: 'bold' });
-	fonts.add('SeverSansBook', './static/fonts/SeverSansBookItalic.ttf', { style: 'italic', weight: 'normal' });
-	fonts.add('SeverSansBook', './static/fonts/SeverSansBoldItalic.ttf', { style: 'italic', weight: 'bold' });
-	fonts.add('Astonish', './static/fonts/AstonishRegular.ttf', { style: 'normal', weight: 'normal' });
-	fonts.add('SevenPxbus', './static/fonts/7Pxbus.ttf', { style: 'normal', weight: 'normal' });
-	fonts.add('Schwachsinn', './static/fonts/SchwachsinnRegular.ttf', { style: 'normal', weight: 'normal' });
-	await fonts.load();
-
-	// preload graphics
-	graphic.loadAll(() => {
-		// Hide loading message
-		document.getElementById('loading').style.display = 'none';
-		// Start the client game
-		window.gamecore = new GameCore(config);
-		window.gamecore.startup();
+	socket.on('connect', () => {
+		// Get all graphics to load from the server
+		socket.emit('requestGraphics', async (graphics) => {
+			graphic.add(graphics);
+			// Get all fonts to load from the server
+			socket.emit('requestFonts', async (fontDefinitions) => {
+				fonts.add(fontDefinitions);
+				// Preload fonts
+				await fonts.load();
+				// Preload graphics
+				graphic.loadAll(() => {
+					// Hide loading message
+					document.getElementById('loading').style.display = 'none';
+					// Start the client game
+					window.gamecore = new GameCore(config, socket);
+					window.gamecore.startup();
+				});
+			});
+		});
 	});
 };

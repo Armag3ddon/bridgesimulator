@@ -1,12 +1,30 @@
 import Entity from './entity.js';
 
 export default class Layout extends Entity {
-	constructor(position, size, align, spacing, flexibleminimum) {
-		super(position, size);
+	constructor() {
+		super();
 
+		this.align = 'vertical';
+		this.spacing = 5;
+		this.flexibleMinimum = 50;
+	}
+
+	onDynamic(json) {
+		if (json.align) this.setAlign(json.align);
+		if (json.spacing) this.setSpacing(json.spacing);
+		if (json.flexibleMinimum) this.setFlexibleMinimum(json.flexibleMinimum);
+	}
+
+	setAlign(align) {
 		this.align = align;
+	}
+
+	setSpacing(spacing) {
 		this.spacing = spacing;
-		this.flexibleminimum = flexibleminimum;
+	}
+
+	setFlexibleMinimum(flexibleMinimum) {
+		this.setflexibleMinimum = flexibleMinimum;
 	}
 
 	add(entity) {
@@ -17,13 +35,13 @@ export default class Layout extends Entity {
 
 	calculateSize(length, amount, spacing) {
 		let size;
-		const minimum = amount * this.flexibleminimum;
+		const minimum = amount * this.flexibleMinimum;
 		// There is enough space
 		if (minimum + spacing * (amount - 1) < length) {
 			size = Math.floor((length - spacing * (amount - 1)) / amount);
 		} else {
-			// Shrink spacing to a maximum of 0
-			size = this.flexibleminimum;
+			// Shrink spacing to a minimum of 0
+			size = this.flexibleMinimum;
 			spacing = Math.max(0, Math.floor((length - size * amount) / (amount - 1)));
 		}
 		return { size: size, spacing: spacing };

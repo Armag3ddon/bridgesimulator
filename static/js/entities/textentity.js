@@ -229,7 +229,7 @@ export default class TextEntity extends Entity {
 		if (json.lineheight) this.setLineHeight(parseInt(json.lineheight));
 	}
 
-	onPostDynamic(json) {
+	postDynamic(json) {
 		if (json.text) this.setText(json.text);
 		if (json.i18ntext) this.seti18nText(json.i18ntext);
 	}

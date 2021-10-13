@@ -2,8 +2,12 @@ export default {
 	urls: [],
 
 	// Add an image to be loaded
-	add(url) {
-		this.urls.push( url );
+	add(value) {
+		if (Array.isArray(value)) {
+			this.urls = this.urls.concat(value);
+		} else {
+			this.urls.push(value);
+		}
 	},
 
 	// Load all images previously added to the list

@@ -1,0 +1,41 @@
+{
+	"EdgeOfTheGalaxy": {
+		"regular": {
+			"file": "EdgeOfTheGalaxyRegular.otf"
+		}
+	},
+	"FeelsLikeNostalgia": {
+		"regular": {
+			"file": "FeelsLikeNostalgiaRegular.ttf"
+		}
+	},
+	"SeverSansBook": {
+		"regular": {
+			"file": "SeverSansBook.ttf"
+		},
+		"bold": {
+			"file": "SeverSansBold.ttf"
+		},
+		"italic": {
+			"file": "SeverSansBookItalic.ttf"
+		},
+		"bolditalic": {
+			"file": "SeverSansBoldItalic.ttf"
+		}
+	},
+	"Astonish": {
+		"regular": {
+			"file": "AstonishRegular.ttf"
+		}
+	},
+	"SevenPxbus": {
+		"regular": {
+			"file": "7Pxbus.ttf"
+		}
+	},
+	"Schwachsinn": {
+		"regular": {
+			"file": "SchwachsinnRegular.ttf"
+		}
+	}
+}

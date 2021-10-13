@@ -1,20 +1,31 @@
 import Fonts from '../definition/fonts.js';
 
 export default {
-	fonts: [],
+	fontDefinitions: [],
 
-	add(name, url) {
-		this.fonts.push({ name: name, url: url });
+	add(fontDefinitions) {
+		this.fontDefinitions = fontDefinitions;
 	},
 
 	async load() {
-		while( this.fonts.length ) {
-			const font = this.fonts.shift();
-			if( typeof this[font.name] == 'undefined' ) {
-				this[font.name] = new FontFace(font.name, `url(${font.url})`);
-				this[font.name].src = font.url;
-				await this[font.name].load();
-				document.fonts.add(this[font.name]);
+		for (const font in this.fontDefinitions) {
+			for (const style in this.fontDefinitions[font]) {
+				let styleDefinition = { style: 'normal', weight: 'normal' };
+				if (style == 'bold') {
+					styleDefinition.weight = 'bold';
+				}
+				if (style == 'italtic') {
+					styleDefinition.style = 'italic';
+				}
+				if (style == 'bolditalic') {
+					styleDefinition.weight = 'bold';
+					styleDefinition.style = 'italic';
+				}
+				const newFont = new FontFace(font,
+					'url(./static/fonts/' + this.fontDefinitions[font][style].file + ')',
+					styleDefinition);
+				await newFont.load();
+				document.fonts.add(newFont);
 			}
 		}
 	},

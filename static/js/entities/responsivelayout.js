@@ -34,8 +34,11 @@ export default class ResponsiveLayout extends Entity {
 					this.setEntityVerticalSpacer(newEntity);
 				if (json.rows[row][entity].horizontal_spacer)
 					this.setEntityHorizontalSpacer(newEntity);
-				
+
 				this.add2Row(newEntity, newRow);
+				if (newEntity.postDynamic) {
+					await newEntity.postDynamic(json.rows[row][entity], sceneHandles);
+				}
 			}
 		}
 	}
