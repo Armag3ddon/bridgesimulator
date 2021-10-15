@@ -9,7 +9,8 @@
 			"graphics_loaded_other": "[INFO] Found {{count}} graphic files.",
 			"basic_scenes": "[INFO] Basic scenes loaded.",
 			"fonts_loaded_one": "[INFO] Loaded {{count}} font.",
-			"fonts_loaded_other": "[INFO] Loaded {{count}} fonts."
+			"fonts_loaded_other": "[INFO] Loaded {{count}} fonts.",
+			"colors_loaded": "[INFO] Loaded color configurations."
 		},
 		"socket": {
 			"connect": "[INFO] A new client with id {{id}} connected.",
@@ -23,7 +24,8 @@
 			"failed_json": "[ERROR] Failed to load JSON from \"{{- filepath}}\".",
 			"failed_graphics": "[ERROR] Failed to load graphics from \"{{- filepath}}\". Reason:",
 			"failed_fonts": "[ERROR] There was a problem with font loading.",
-			"failed_scenes": "[ERROR] There was a problem with scene loading."
+			"failed_scenes": "[ERROR] There was a problem with scene loading.",
+			"failed_colors": "[ERROR] There was a problem with color loading."
 		}
 	},
 	"game": {
@@ -46,6 +48,9 @@
 			"b2server": "Server",
 			"b3roles": "Select Role",
 			"b4start": "Start"
+		},
+		"options": {
+			"options": "Options:"
 		}
 	},
 	"misc": {

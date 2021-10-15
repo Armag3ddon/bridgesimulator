@@ -41,7 +41,11 @@ export default class Entity {
 	async dynamic(json, sceneHandles) {
 		if (json.entities) {
 			for (const entity in json.entities) {
-				const module = await import('./' + entity.toLowerCase() + '.js');
+				let newModule = entity.toLowerCase();
+				if (newModule.includes('_')) {
+					newModule = newModule.substr(0, newModule.indexOf('_'));
+				}
+				const module = await import('./' + newModule + '.js');
 				const newEntity = await module.default.create(json.entities[entity], sceneHandles);
 				this.add(newEntity);
 				if (newEntity.postDynamic) newEntity.postDynamic(json.entities[entity], sceneHandles);

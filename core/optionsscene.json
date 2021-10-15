@@ -1,11 +1,5 @@
 {
-	"name": "MenuScene",
-	"functions": {
-		"playerName": {
-			"arguments": "name",
-			"body": "this.hello.seti18nText({ request: 'game.menu.hello', keys: { name: name } });"
-		}
-	},
+	"name": "OptionsScene",
 	"entities": {
 		"ResponsiveLayout": {
 			"rows": {
@@ -17,17 +11,10 @@
 					}
 				},
 				"2": {
-					"Entity": {
-						"width": 5,
-						"height": 5,
-						"vertical_spacer": true
-					},
 					"TextEntity": {
-						"width": 95,
-						"height": 5,
-						"minheight": "fonts.friendly",
-						"font": "friendly",
-						"sceneHandle": "hello"
+						"width": 100,
+						"min_height": "fonts.title",
+						"text": "game.options.options"
 					}
 				},
 				"3": {

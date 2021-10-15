@@ -14,6 +14,7 @@ class Producer {
 
 		sockets.reserveNetworkHandle('requestGraphics', this);
 		sockets.reserveNetworkHandle('requestFonts', this);
+		sockets.reserveNetworkHandle('requestColors', this);
 		sockets.reserveNetworkHandle('requestBasicScenes', this);
 	}
 
@@ -26,6 +27,15 @@ class Producer {
 		} else {
 			console.info(i18next.t('server.engine.graphics_loaded',
 				{ count: this.graphics.length }));
+		}
+	}
+
+	loadColors() {
+		try {
+			this.colors = this.parent.loader.loadJSON('colors');
+			console.info(i18next.t('server.engine.colors_loaded'));
+		} catch {
+			console.error(i18next.t('server.errors.failed_colors'));
 		}
 	}
 
@@ -51,6 +61,9 @@ class Producer {
 			// MenuScene
 			const menu = this.parent.loader.loadJSON('mainmenu');
 			this.basic_scenes.push(menu);
+			// OptionsScene
+			const options = this.parent.loader.loadJSON('optionsscene');
+			this.basic_scenes.push(options);
 
 			console.info(i18next.t('server.engine.basic_scenes'));
 		} catch {
@@ -68,6 +81,10 @@ class Producer {
 
 	requestBasicScenes(data, callback) {
 		callback(this.basic_scenes);
+	}
+
+	requestColors(data, callback) {
+		callback(this.colors);
 	}
 
 	readDirectory(directory) {

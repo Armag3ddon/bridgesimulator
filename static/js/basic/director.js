@@ -7,13 +7,13 @@ export default class Director {
 		this.parent = gamecore;
 	}
 
-	async loadBasicScenes(callback) {
+	async loadBasicScenes() {
 		this.parent.networkOut('requestBasicScenes', null, async (scenes) => {
 			for (let i = 0; i < scenes.length; i++) {
 				await this.constructScene(scenes[i]);
 			}
 
-			callback();
+			this.parent.startupFinished();
 		});
 	}
 

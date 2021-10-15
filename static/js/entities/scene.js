@@ -11,10 +11,10 @@ export default class Scene extends Entity {
 	 */
 	constructor(name) {
 		super();
-		this.bgcolor = Colors.defaultSceneBackground;
 
 		this.name = name;
 		this.size = window.gamecore.size.clone();
+		this.bgcolor = window.gamecore.painter.defaultSceneBackground;
 	}
 
 	onDynamic(json) {
@@ -48,7 +48,7 @@ export default class Scene extends Entity {
 	}
 
 	onDraw(ctx) {
-		if (this.bgcolor) {
+		if (this.bgcolor && !this.bg) {
 			ctx.fillStyle = this.bgcolor;
 			ctx.fillRect(0,0, this.parent.size.x, this.parent.size.y);
 		}

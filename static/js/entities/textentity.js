@@ -91,6 +91,14 @@ export default class TextEntity extends Entity {
 	}
 
 	/**
+	 * Set the font to be used.
+	 * @param {*} font 
+	 */
+	setFont(font) {
+		this.font = font;
+	}
+
+	/**
 	 * Set the space between two lines in percent of the text size.
 	 * @param {int} height - New line height. Default: 20 (= 20%).
 	 */
@@ -207,9 +215,10 @@ export default class TextEntity extends Entity {
 	}
 
 	// Calculate the dimensions based on the text to be displayed
-	// Incompatible with setWrap because with that, you supply the size
+	// Won't change the size if the size has already been set
 	measureArea() {
 		if (!this.text.length) return;
+		if (!this.size.empty()) return;
 
 		let longestline = 0;
 		for (let i = 1; i < this.text.length; i++) {
@@ -227,11 +236,13 @@ export default class TextEntity extends Entity {
 		if (json.textbox) this.setTextboxstyle();
 		if (json.bottom2top) this.setBottom2Top();
 		if (json.lineheight) this.setLineHeight(parseInt(json.lineheight));
+		if (json.shrink2fit) this.shrink2Fit();
 	}
 
 	postDynamic(json) {
 		if (json.text) this.setText(json.text);
 		if (json.i18ntext) this.seti18nText(json.i18ntext);
+		if (json.margin) this.setMargin(json.margin);
 	}
 
 	onAdded() {
@@ -240,6 +251,7 @@ export default class TextEntity extends Entity {
 
 	onResize() {
 		if (this.wrap) this.calculateWrap = true;
+		if (this.margin) this.setMargin(this.margin);
 	}
 
 	onDraw(ctx) {

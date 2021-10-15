@@ -28,10 +28,10 @@ SOFTWARE.
 
 import V2 from './geo/v2.js';
 import fonts from './basic/fonts.js';
-import Colors from './definition/colors.js';
 import mouse from './basic/mouse.js';
 import ErrorScene from './entities/errorscene.js';
 import Director from './basic/director.js';
+import Painter from './basic/painter.js';
 
 window.requestAnimFrame = ((() =>
 	window.requestAnimationFrame ||
@@ -44,12 +44,9 @@ window.requestAnimFrame = ((() =>
 
 export default class GameCore {
 	constructor(config, socket) {
-		window.onresize = this.resize.bind(this);
-		fonts.fitFontSizes(window.screen.height);
-		fonts.applyFontColor(Colors.defaultTextColor);
-
-		this.scale = 1;
-		this.size = new V2(window.innerWidth, window.innerHeight - document.getElementById('ui').offsetHeight);
+		this.size = new V2(
+			window.innerWidth,
+			window.innerHeight - document.getElementById('ui').offsetHeight);
 
 		this.display = document.getElementById('gameframe');
 
@@ -65,39 +62,47 @@ export default class GameCore {
 
 		this.fps = 1;
 		this.frames = 0;
-		setInterval(this.updateFramerate.bind(this), 1000);
 
 		this.loop = this.loop.bind(this);
 		this.socket = socket;
-		var self = this;
+
 		this.socket.on('getPlayerName', this.playerName.bind(this));
-		this.socket.on('gamestate', (data) => { self.networkIn(data); });
+		this.socket.on('gamestate', this.networkIn.bind(this));
 		this.socket.on('disconnect', this.networkError.bind(this));
+
 		this.socket.onAny((event, data) => {
 			console.log(event + ' @ ' + data);
 		});
 
 		this.director = new Director(this);
+		this.painter = new Painter(this);
 		this.scenes = [];
 		this.scene = null;
 	}
 
 	startup() {
+		fonts.fitFontSizes(window.screen.height);
 		mouse.init(this);
 
 		this.loadLanguages(() => {
-			this.director.loadBasicScenes(() => {
-				this.networkOut('getPlayerName');
-
-				this.addScene(new ErrorScene());
-
-				this.run();
-				this.scenes['PasswordScene'].setPasswordName('user');
-				this.scenes['PasswordScene'].setBack2Scene('MenuScene');
-				this.goto('PasswordScene');
-
-			});
+			this.painter.loadColors();
 		});
+	}
+
+	startupFinished() {
+		window.onresize = this.resize.bind(this);
+		fonts.applyFontColor(this.painter.defaultTextColor);
+
+		this.networkOut('getPlayerName');
+
+		this.addScene(new ErrorScene());
+
+		setInterval(this.updateFramerate.bind(this), 1000);
+		this.run();
+
+		this.scenes['PasswordScene'].setPasswordName('user');
+		this.scenes['PasswordScene'].setBack2Scene('MenuScene');
+		this.goto('PasswordScene');
 	}
 
 	loadLanguages(callback) {
@@ -186,7 +191,7 @@ export default class GameCore {
 	draw() {
 		this.scene.draw(this.bufferCtx);
 
-		this.displayCtx.drawImage(this.buffer, 0, 0, this.size.x * this.scale, this.size.y * this.scale);
+		this.displayCtx.drawImage(this.buffer, 0, 0, this.size.x, this.size.y);
 	}
 
 	broadcast(callback, data) {

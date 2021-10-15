@@ -1,7 +1,8 @@
 import Entity from './entity.js';
-import  TextEntity from './textentity.js';
-import  ImageEntity from './imageentity.js';
+import TextEntity from './textentity.js';
+import ImageEntity from './imageentity.js';
 import RectEntity from './rectentity.js';
+import fonts from '../definition/fonts.js';
 import {Zero} from '../geo/v2.js';
 
 export default class Button extends Entity {
@@ -11,20 +12,30 @@ export default class Button extends Entity {
 		this.text = null;
 		this.image = null;
 		this.rect = null;
+	}
 
-		this.onClick = p => {
-			callback(p);
-			return true;
-		};
+	onDynamic(json) {
+		if (json.image) this.imageButton(json.image);
+		if (json.rect) this.rectButton(json.rect);
+		if (json.shrink2fit) this.shrink2Fit();
+		if (json.callback) {
+			this.onClick = new Function(json.callback.arguments, json.callback.body);
+		}
+		if (json.font) this.textButton(fonts[json.font]);
+	}
+
+	postDynamic(json) {
+		if (json.text) this.setText(json.text);
+		if (json.i18ntext) this.seti18nText(json.i18ntext);
 	}
 
 	shrink2Fit() {
 		this.shrink2fit = true;
 	}
 
-	textButton(text, font) {
-		this.text = new TextEntity(Zero(), text, font);
-
+	textButton(font) {
+		this.text = new TextEntity();
+		this.text.setFont(font);
 		this.add(this.text);
 
 		return this;
@@ -42,10 +53,9 @@ export default class Button extends Entity {
 	}
 
 	rectButton(color) {
-		const rect = new RectEntity(Zero(), Zero(), color, 2);
-
+		const rect = new RectEntity();
+		rect.setColor(color);
 		this.add(rect);
-
 		return this;
 	}
 

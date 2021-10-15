@@ -1,0 +1,14 @@
+{
+	"defaultSceneBackground": "--background",
+	"defaultTextColor": "--text",
+	"textbox": {
+		"stroke": "--darkest",
+		"fill": "--dark"
+	},
+	"button": {
+		"stroke": "--dark",
+		"hoverStroke": "--bright",
+		"fill": "--medium",
+		"hoverFill": "--medium"
+	}
+}
