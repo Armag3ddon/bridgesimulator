@@ -31,7 +31,7 @@
 	"game": {
 		"title": "Generic Bridge Simulator",
 		"player": {
-			"connect": "[INFO] New player {{name}} ({{id}}) created."
+			"connect": "[INFO] New player {{- name}} ({{- id}}) created."
 		},
 		"password": {
 			"hello": "Welcome to {{- request.site}}.",

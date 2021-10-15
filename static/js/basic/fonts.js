@@ -1,15 +1,15 @@
-import Fonts from '../definition/fonts.js';
+/* Holds all information on fonts */
 
-export default {
-	fontDefinitions: [],
+export default class Font {
+	constructor(fontFiles, fontDefinitions) {
+		this.files = fontFiles;
+		this.definitions = fontDefinitions;
+		this.fixedResolution = 1080;
+	}
 
-	add(fontDefinitions) {
-		this.fontDefinitions = fontDefinitions;
-	},
-
-	async load() {
-		for (const font in this.fontDefinitions) {
-			for (const style in this.fontDefinitions[font]) {
+	async loadFiles() {
+		for (const font in this.files) {
+			for (const style in this.files[font]) {
 				let styleDefinition = { style: 'normal', weight: 'normal' };
 				if (style == 'bold') {
 					styleDefinition.weight = 'bold';
@@ -22,40 +22,61 @@ export default {
 					styleDefinition.style = 'italic';
 				}
 				const newFont = new FontFace(font,
-					'url(./static/fonts/' + this.fontDefinitions[font][style].file + ')',
+					'url(./static/fonts/' + this.files[font][style].file + ')',
 					styleDefinition);
 				await newFont.load();
 				document.fonts.add(newFont);
 			}
 		}
-	},
+	}
+
+	defaultDefinition() {
+		return {
+			family: 'sans-serif',
+			size: '14',
+			weight: 'normal',
+			variant: 'normal',
+			style: 'normal',
+			fillStyle: 'white',
+			textBaseline: 'top',
+			textAlign: 'left'
+		};
+	}
+
+	loadDefinitions() {
+		for (const definition in this.definitions) {
+			// Apply defaults
+			this[definition] = this.defaultDefinition();
+			for (const attribute in this.definitions[definition]) {
+				// Apply overrides
+				this[definition][attribute] = this.definitions[definition][attribute];
+			}
+		}
+	}
 
 	fitFontSizes(screenheight) {
-		const scale = screenheight / Fonts.fixedResolution;
-		for (const font in Fonts) {
-			if (Fonts[font].in1080) {
-				Fonts[font].size = Math.round(Fonts[font].in1080 * scale);
-			}
+		const scale = screenheight / this.fixedResolution;
+		for (const definition in this.definitions) {
+			this[definition].size = Math.round(
+				this[definition].size * scale
+			);
 		}
-	},
+	}
 
 	applyFontColor(color) {
-		for (const font in Fonts) {
-			if (Fonts[font].in1080) {
-				Fonts[font].fillStyle = color;
-			}
+		for (const definition in this.definitions) {
+			this[definition].fillStyle = color;
 		}
-	},
+	}
 
 	apply(ctx, definition) {
-		ctx.textAlign = definition.textAlign ? definition.textAlign : 'left';
-		ctx.textBaseline = definition.textBaseline ? definition.textBaseline : 'top';
-		ctx.fillStyle = definition.fillStyle ? definition.fillStyle : 'white';
-		const style = definition.style ? definition.style : 'normal';
-		const variant = definition.variant ? definition.variant : 'normal';
-		const weight = definition.weight ? definition.weight : 'normal';
-		const size = definition.size ? definition.size : '12';
-		const family = definition.family ? definition.family : 'sans-serif';
-		ctx.font = `${style} ${variant} ${weight} ${size}px ${family}`;
+		ctx.textAlign = this[definition].textAlign;
+		ctx.textBaseline = this[definition].textBaseline;
+		ctx.fillStyle = this[definition].fillStyle;
+		ctx.font = this[definition].style + ' '
+			+ this[definition].variant + ' '
+			+ this[definition].weight + ' '
+			+ this[definition].size + 'px '
+			+ this[definition].family + ' ';
 	}
-};
+}

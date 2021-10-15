@@ -1,5 +1,4 @@
 import Entity from './entity.js';
-import fonts from '../definition/fonts.js';
 
 /** @module ResponsiveLayout */
 export default class ResponsiveLayout extends Entity {
@@ -114,7 +113,7 @@ export default class ResponsiveLayout extends Entity {
 			if (!isNaN(parseInt(value))) return parseInt(value);
 			if (value.substr(0, 5) == 'fonts') {
 				const fontname = value.slice(6);
-				return parseInt(fonts[fontname].size);
+				return parseInt(window.gamecore.fonts[fontname].size);
 			}
 		}
 		return 0;

@@ -1,6 +1,6 @@
 import GameCore from './gamecore.js';
 import graphic from './basic/graphic.js';
-import fonts from './basic/fonts.js';
+import Fonts from './basic/fonts.js';
 import config from './basic/config.js';
 
 window.onload = async () => {
@@ -12,15 +12,16 @@ window.onload = async () => {
 			graphic.add(graphics);
 			// Get all fonts to load from the server
 			socket.emit('requestFonts', async (fontDefinitions) => {
-				fonts.add(fontDefinitions);
+				const fonts = new Fonts(fontDefinitions.files, fontDefinitions.definitions);
 				// Preload fonts
-				await fonts.load();
+				await fonts.loadFiles();
+				fonts.loadDefinitions();
 				// Preload graphics
 				graphic.loadAll(() => {
 					// Hide loading message
 					document.getElementById('loading').style.display = 'none';
 					// Start the client game
-					window.gamecore = new GameCore(config, socket);
+					window.gamecore = new GameCore(config, socket, fonts);
 					window.gamecore.startup();
 				});
 			});

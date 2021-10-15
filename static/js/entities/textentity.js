@@ -1,6 +1,4 @@
 import Entity from './entity.js';
-import fonts from '../basic/fonts.js';
-import fontDefinitions from '../definition/fonts.js';
 
 /** @module TextEntity */
 export default class TextEntity extends Entity {
@@ -39,7 +37,7 @@ export default class TextEntity extends Entity {
 		this.bufferSize = 20;
 
 		this.text = [];
-		this.font = fontDefinitions.small;
+		this.font = 'small';
 	}
 
 	/**
@@ -160,7 +158,11 @@ export default class TextEntity extends Entity {
 
 	// Get the size of one full line of text (text size + space)
 	calculateLineHeight() {
-		return parseInt(this.font.size) + Math.floor(parseInt(this.font.size) * this.lineheight / 100);
+		return parseInt(
+			this.getFontReference().size)
+			+ Math.floor(parseInt(this.getFontReference().size)
+			* this.lineheight
+			/ 100);
 	}
 
 	// Will check this.text line by line for overflow out of the
@@ -225,14 +227,18 @@ export default class TextEntity extends Entity {
 			if (this.text[i].length > longestline)
 				longestline = i;
 		}
-		fonts.apply(window.gamecore.bufferCtx, this.font);
+		window.gamecore.fonts.apply(window.gamecore.bufferCtx, this.font);
 		this.size.x = Math.ceil(
 			window.gamecore.bufferCtx.measureText(this.text[longestline]).width);
 		this.size.y = this.calculateLineHeight() * this.text.length;
 	}
 
+	getFontReference() {
+		return window.gamecore.fonts[this.font];
+	}
+
 	onDynamic(json) {
-		if (json.font) this.font = fontDefinitions[json.font];
+		if (json.font) this.setFont(json.font);
 		if (json.textbox) this.setTextboxstyle();
 		if (json.bottom2top) this.setBottom2Top();
 		if (json.lineheight) this.setLineHeight(parseInt(json.lineheight));
@@ -255,7 +261,8 @@ export default class TextEntity extends Entity {
 	}
 
 	onDraw(ctx) {
-		fonts.apply(ctx, this.font);
+		window.gamecore.fonts.apply(ctx, this.font);
+
 		if (this.renewwrap)
 			this.calculateWrap(ctx);
 
@@ -265,7 +272,7 @@ export default class TextEntity extends Entity {
 		let x = 0;
 		let y = 0;
 		
-		if (this.font.textAlign == 'center') {
+		if (this.getFontReference().textAlign == 'center') {
 			x = this.size.x / 2;
 		}
 

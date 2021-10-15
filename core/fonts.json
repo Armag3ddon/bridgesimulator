@@ -1,41 +1,80 @@
 {
-	"EdgeOfTheGalaxy": {
-		"regular": {
-			"file": "EdgeOfTheGalaxyRegular.otf"
-		}
-	},
-	"FeelsLikeNostalgia": {
-		"regular": {
-			"file": "FeelsLikeNostalgiaRegular.ttf"
-		}
-	},
-	"SeverSansBook": {
-		"regular": {
-			"file": "SeverSansBook.ttf"
+	"files": {
+		"EdgeOfTheGalaxy": {
+			"regular": {
+				"file": "EdgeOfTheGalaxyRegular.otf"
+			}
 		},
-		"bold": {
-			"file": "SeverSansBold.ttf"
+		"FeelsLikeNostalgia": {
+			"regular": {
+				"file": "FeelsLikeNostalgiaRegular.ttf"
+			}
 		},
-		"italic": {
-			"file": "SeverSansBookItalic.ttf"
+		"SeverSansBook": {
+			"regular": {
+				"file": "SeverSansBook.ttf"
+			},
+			"bold": {
+				"file": "SeverSansBold.ttf"
+			},
+			"italic": {
+				"file": "SeverSansBookItalic.ttf"
+			},
+			"bolditalic": {
+				"file": "SeverSansBoldItalic.ttf"
+			}
 		},
-		"bolditalic": {
-			"file": "SeverSansBoldItalic.ttf"
+		"Astonish": {
+			"regular": {
+				"file": "AstonishRegular.ttf"
+			}
+		},
+		"SevenPxbus": {
+			"regular": {
+				"file": "7Pxbus.ttf"
+			}
+		},
+		"Schwachsinn": {
+			"regular": {
+				"file": "SchwachsinnRegular.ttf"
+			}
 		}
 	},
-	"Astonish": {
-		"regular": {
-			"file": "AstonishRegular.ttf"
-		}
-	},
-	"SevenPxbus": {
-		"regular": {
-			"file": "7Pxbus.ttf"
-		}
-	},
-	"Schwachsinn": {
-		"regular": {
-			"file": "SchwachsinnRegular.ttf"
+	"definitions": {
+		"title": {
+			"family": "EdgeOfTheGalaxy",
+			"textAlign": "center",
+			"size": "50"
+		},
+		"small": {
+			"family": "SeverSansBook",
+			"size": "14"
+		},
+		"medium": {
+			"family": "SeverSansBook",
+			"size": "18"
+		},
+		"button": {
+			"family": "SeverSansBook",
+			"textAlign": "center",
+			"size": "25"
+		},
+		"friendly": {
+			"family": "FeelsLikeNostalgia",
+			"size": "16"
+		},
+		"angry": {
+			"family": "Schwachsinn",
+			"size": "16"
+		},
+		"fancy_title": {
+			"family": "Astonish",
+			"textAlign": "center",
+			"size": "70"
+		},
+		"basic": {
+			"family": "SevenPxbus",
+			"size": "10"
 		}
 	}
 }

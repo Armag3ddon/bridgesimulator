@@ -2,7 +2,6 @@ import Entity from './entity.js';
 import TextEntity from './textentity.js';
 import ImageEntity from './imageentity.js';
 import RectEntity from './rectentity.js';
-import fonts from '../definition/fonts.js';
 import {Zero} from '../geo/v2.js';
 
 export default class Button extends Entity {
@@ -21,7 +20,7 @@ export default class Button extends Entity {
 		if (json.callback) {
 			this.onClick = new Function(json.callback.arguments, json.callback.body);
 		}
-		if (json.font) this.textButton(fonts[json.font]);
+		if (json.font) this.textButton(json.font);
 	}
 
 	postDynamic(json) {

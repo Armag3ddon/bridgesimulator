@@ -27,7 +27,6 @@ SOFTWARE.
 */
 
 import V2 from './geo/v2.js';
-import fonts from './basic/fonts.js';
 import mouse from './basic/mouse.js';
 import ErrorScene from './entities/errorscene.js';
 import Director from './basic/director.js';
@@ -43,7 +42,7 @@ window.requestAnimFrame = ((() =>
 ))();
 
 export default class GameCore {
-	constructor(config, socket) {
+	constructor(config, socket, fonts) {
 		this.size = new V2(
 			window.innerWidth,
 			window.innerHeight - document.getElementById('ui').offsetHeight);
@@ -76,12 +75,13 @@ export default class GameCore {
 
 		this.director = new Director(this);
 		this.painter = new Painter(this);
+		this.fonts = fonts;
 		this.scenes = [];
 		this.scene = null;
 	}
 
 	startup() {
-		fonts.fitFontSizes(window.screen.height);
+		this.fonts.fitFontSizes(window.screen.height);
 		mouse.init(this);
 
 		this.loadLanguages(() => {
@@ -91,7 +91,7 @@ export default class GameCore {
 
 	startupFinished() {
 		window.onresize = this.resize.bind(this);
-		fonts.applyFontColor(this.painter.defaultTextColor);
+		this.fonts.applyFontColor(this.painter.defaultTextColor);
 
 		this.networkOut('getPlayerName');
 

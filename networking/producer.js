@@ -46,7 +46,7 @@ class Producer {
 				console.warn(i18next.t('server.warnings.no_fonts'));
 			} else {
 				console.info(i18next.t('server.engine.fonts_loaded',
-					{ count: Object.keys(this.fonts).length }));
+					{ count: Object.keys(this.fonts.files).length }));
 			}
 		} catch {
 			console.error(i18next.t('server.errors.failed_fonts'));
