@@ -5,8 +5,6 @@ User access (get on the server) and administrator privileges */
 import V2 from '../geo/v2.js';
 import Scene from './scene.js';
 import TextEntity from './textentity.js';
-import fonts from '../definition/fonts.js';
-import colors from '../definition/colors.js';
 import RectEntity from './rectentity.js';
 import AnimationRectUnfold from '../animations/rectunfold.js';
 
@@ -15,7 +13,7 @@ export default class ErrorScene extends Scene {
 		super('ErrorScene');
 	}
 
-	onAdded() {
+	/*onAdded() {
 		this.parent.registerNetworkHandle('reconnect', this);
 		this.parent.registerNetworkHandle('reconnect_attempt', this);
 		this.parent.registerNetworkHandle('reconnect_error', this);
@@ -31,7 +29,7 @@ export default class ErrorScene extends Scene {
 		this.box.add(effect);
 		this.messenger.seti18nText('game.error.connection_lost');
 		this.messenger.visible = false;
-	}
+	}*/
 
 	networkIn(handle, data) {
 		console.log(handle + ' @ ' + data);

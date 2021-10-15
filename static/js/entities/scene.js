@@ -1,6 +1,5 @@
 import Entity from './entity.js';
 import graphic from './../basic/graphic.js';
-import Colors from '../definition/colors.js';
 
 /** @module Scene */
 export default class Scene extends Entity {

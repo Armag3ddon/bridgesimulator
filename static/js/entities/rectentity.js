@@ -1,6 +1,5 @@
 import Entity from './entity.js';
 import {Zero} from '../geo/v2.js';
-import Colors from '../definition/colors.js';
 
 export default class RectEntity extends Entity {
 	constructor() {
