@@ -1,9 +1,14 @@
 :root {
 	--darkest: #060A0D;
+	--darkestcompl: #0D0906;
 	--dark: #0B131A;
+	--darkcompl: #1A120B;
 	--medium: #2B4B67;
+	--mediumcompl: #67472B;
 	--bright: #60A8E6;
+	--brightcompl: #E69E60;
 	--brightest: #6AB9FD;
+	--brightestcompl: #FDAE6A;
 	--text: #FFFFFF;
 	--background: #0D0906;
 }

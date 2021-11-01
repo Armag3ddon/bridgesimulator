@@ -32,6 +32,8 @@ import ErrorScene from './entities/errorscene.js';
 import Director from './basic/director.js';
 import Painter from './basic/painter.js';
 
+import TestScene from './entities/testscene.js';
+
 window.requestAnimFrame = ((() =>
 	window.requestAnimationFrame ||
 	window.webkitRequestAnimationFrame ||
@@ -96,13 +98,14 @@ export default class GameCore {
 		this.networkOut('getPlayerName');
 
 		this.addScene(new ErrorScene());
+		this.addScene(new TestScene());
 
 		setInterval(this.updateFramerate.bind(this), 1000);
 		this.run();
 
 		this.scenes['PasswordScene'].setPasswordName('user');
 		this.scenes['PasswordScene'].setBack2Scene('MenuScene');
-		this.goto('PasswordScene');
+		this.goto('TestScene');
 	}
 
 	loadLanguages(callback) {

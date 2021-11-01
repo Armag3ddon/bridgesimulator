@@ -1,27 +1,41 @@
 import graphics from '../basic/graphic.js';
 import V2 from '../geo/v2.js';
-import {Zero} from '../geo/v2.js';
 import Entity from './entity.js';
 
 export default class ImageEntity extends Entity {
-	constructor(position, source) {
-		if (!graphics[source]) {
-			super(position, Zero());
-			this.temp = source;
-			graphics.load([source], this.onImageLoaded.bind(this));
-		} else {
-			super(position, new V2(graphics[source].width, graphics[source].height));
-			this.image = graphics[source];
-		}
+	constructor() {
+		super();
 
 		this.scale = 1;
 		this.keepproportions = true;
 	}
 
+	setImage(source) {
+		if (!graphics[source]) {
+			this.temp = source;
+			graphics.load([source], this.onImageLoaded.bind(this));
+		} else {
+			this.size = new V2(graphics[source].width, graphics[source].height);
+			this.image = graphics[source];
+		}
+	}
+
 	fitToSize() {
 		this.keepproportions = false;
 	}
-	
+
+	resizeToWidth(width) {
+		this.scale = width / this.size.x;
+		this.size.x = Math.floor(this.size.x * this.scale);
+		this.size.y = Math.floor(this.size.y * this.scale);
+	}
+
+	resizeToHeight(height) {
+		this.scale = height / this.size.y;
+		this.size.x = Math.floor(this.size.x * this.scale);
+		this.size.y = Math.floor(this.size.y * this.scale);
+	}
+
 	onImageLoaded() {
 		this.image = graphics[this.temp];
 		this.temp = null;

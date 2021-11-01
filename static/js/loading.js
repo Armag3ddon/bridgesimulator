@@ -4,7 +4,12 @@ import Fonts from './basic/fonts.js';
 import config from './basic/config.js';
 
 window.onload = async () => {
+	// io() is provided by the socket.io module.
 	const socket = io(); // eslint-disable-line no-undef
+
+	/*
+		Preload fonts and graphics before starting the game.
+	*/
 
 	socket.on('connect', () => {
 		// Get all graphics to load from the server

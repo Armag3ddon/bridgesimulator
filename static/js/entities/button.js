@@ -41,7 +41,8 @@ export default class Button extends Entity {
 	}
 
 	imageButton(source) {
-		this.image = new ImageEntity(Zero(), source);
+		this.image = new ImageEntity();
+		this.image.setImage(source);
 
 		if (!this.shrink2fit) {
 			this.image.fitToSize();

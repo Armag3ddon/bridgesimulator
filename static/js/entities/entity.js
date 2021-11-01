@@ -1,3 +1,4 @@
+import V2 from '../geo/v2.js';
 import {Zero} from '../geo/v2.js';
 import Rect from '../geo/rect.js';
 import mouse from '../basic/mouse.js';
@@ -54,13 +55,21 @@ export default class Entity {
 	}
 
 	setSize(w, h) {
-		this.size.x = w;
-		this.size.y = h;
+		if (!h && w instanceof V2) {
+			this.size = w;
+		} else {
+			this.size.x = w;
+			this.size.y = h;
+		}
 	}
 
 	setPosition(x, y) {
-		this.position.x = x;
-		this.position.y = y;
+		if (!y && x instanceof V2) {
+			this.position = x;
+		} else {
+			this.position.x = x;
+			this.position.y = y;
+		}
 	}
 
 	center() {
@@ -133,9 +142,7 @@ export default class Entity {
 	}
 
 	resize() {
-		if (this.onResize) {
-			this.onResize();
-		}
+		if (this.onResize) this.onResize();
 		this.dispatch(this.blocking, 'resize');
 		this.dispatch(this.entities, 'resize');
 	}
@@ -180,7 +187,6 @@ export default class Entity {
 
 	mouseup(pos) {
 		pos = pos.dif(this.position);
-		if (!this.getArea().inside(pos)) return;
 		if (this.onMouseUp && this.onMouseUp(pos)) return true;
 
 		if (this.blocking.length) {

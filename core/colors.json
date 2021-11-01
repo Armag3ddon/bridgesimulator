@@ -10,5 +10,13 @@
 		"hoverStroke": "--bright",
 		"fill": "--medium",
 		"hoverFill": "--medium"
+	},
+	"scrollbar": {
+		"stroke": "--dark",
+		"fill": "--dark"
+	},
+	"scrollbarthumb": {
+		"stroke": "--mediumcompl",
+		"fill": "--brightcompl"
 	}
 }

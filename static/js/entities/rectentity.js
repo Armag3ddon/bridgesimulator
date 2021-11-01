@@ -13,9 +13,13 @@ export default class RectEntity extends Entity {
 		this.color = window.gamecore.painter[color];
 	}
 
+	setLineWidth(width) {
+		this.lineWidth = width;
+	}
+
 	onDynamic(json) {
 		this.setColor(json.color);
-		if (json.lineWidth) this.lineWidth = json.lineWidth;
+		if (json.lineWidth) this.setLineWidth(json.lineWidth);
 	}
 
 	onDraw(ctx) {

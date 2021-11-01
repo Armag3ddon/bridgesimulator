@@ -5,7 +5,7 @@ var game;
 
 mouse.init = function (g) {
 	const self = this;
-	const gameframe = document.getElementById('gameframe');
+	const gameframe = window.gameframe;
 	let primaryTouchId = null;
 	game = g;
 

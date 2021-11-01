@@ -14,53 +14,7 @@
 					"TextEntity": {
 						"width": 100,
 						"min_height": "fonts.title",
-						"text": "game.options.options"
-					}
-				},
-				"3": {
-					"RectEntity": {
-						"width": 70,
-						"min_width": 300,
-						"height": 50,
-						"min_height": 25,
-						"color": "textbox"
-					},
-					"Entity": {
-						"width": 5,
-						"height": 50,
-						"vertical_spacer": true
-					},
-					"Layout": {
-						"width": 25,
-						"min_width": 300,
-						"height": 50,
-						"min_height": 50,
-						"entities": {
-							"Button_1": {
-								"rect": "button",
-								"font": "button",
-								"i18ntext": "game.menu.b1options",
-								"callback": {
-									"arguments": "",
-									"body": "window.gamecore.goto('OptionsScene');"
-								}
-							},
-							"Button_2": {
-								"rect": "button",
-								"font": "button",
-								"i18ntext": "game.menu.b2server"
-							},
-							"Button_3": {
-								"rect": "button",
-								"font": "button",
-								"i18ntext": "game.menu.b3roles"
-							},
-							"Button_4": {
-								"rect": "button",
-								"font": "button",
-								"i18ntext": "game.menu.b4start"
-							}
-						}
+						"i18ntext": "game.options.options"
 					}
 				}
 			}
