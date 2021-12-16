@@ -16,8 +16,10 @@ export default class Scrollfield extends Entity {
 	}
 
 	onDynamic(json) {
-		if (json.image) this.imageBar(json.image);
-		if (json.rect) this.rectBar(json.rect);
+		if (json.image) this.imageBackground(json.image);
+		if (json.rect) this.rectBackground(json.rect);
+		if (json.horizontalScrollbar) this.setHorizontalScrollbar(json.horizontalScrollbar);
+		if (json.verticalScrollbar) this.setVerticalScrollbar(json.verticalScrollbar);
 	}
 
 	imageBackground(source) {

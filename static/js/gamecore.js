@@ -105,7 +105,7 @@ export default class GameCore {
 
 		this.scenes['PasswordScene'].setPasswordName('user');
 		this.scenes['PasswordScene'].setBack2Scene('MenuScene');
-		this.goto('TestScene');
+		this.goto('MenuScene');
 	}
 
 	loadLanguages(callback) {

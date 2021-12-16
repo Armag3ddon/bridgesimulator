@@ -11,6 +11,7 @@ class Producer {
 		this.basic_scenes = [];
 		this.graphics = [];
 		this.fonts = {};
+		this.scenarios = [];
 
 		sockets.reserveNetworkHandle('requestGraphics', this);
 		sockets.reserveNetworkHandle('requestFonts', this);
@@ -20,7 +21,7 @@ class Producer {
 
 	loadGraphics() {
 		const static_directory = this.parent.config.getConfig('static_directory');
-		this.graphics = this.readDirectory(static_directory + '/img');
+		this.graphics = this.readGraphicsDirectory(static_directory + '/img');
 
 		if (this.graphics.length == 0) {
 			console.warn(i18next.t('server.warnings.no_graphics'));
@@ -64,10 +65,37 @@ class Producer {
 			// OptionsScene
 			const options = this.parent.loader.loadJSON('optionsscene');
 			this.basic_scenes.push(options);
+			// SercerScene
+			const server = this.parent.loader.loadJSON('serverscene');
+			this.basic_scenes.push(server);
 
 			console.info(i18next.t('server.engine.basic_scenes'));
 		} catch {
 			console.error(i18next.t('server.errors.failed_scenes'));
+		}
+	}
+
+	loadScenarios() {
+		const scenario_directory = this.parent.config.getConfig('scenario_directory');
+		const dir_path = path.join(__dirname, '..', scenario_directory);
+		const readout = fs.readdirSync(dir_path);
+		for (let i = 0; i < readout.length; i++) {
+			if (fs.lstatSync(path.join(dir_path, readout[i])).isDirectory()) {
+				console.info(i18next.t('server.engine.load_scenario', { directory: readout[i] }));
+				try {
+					const scenario = JSON.parse(
+						fs.readFileSync(
+							path.resolve(
+								dir_path,
+								readout[i],
+								'scenario.json')));
+					this.scenarios.push(scenario);
+				} catch {
+					console.error(i18next.t(
+						'server.errors.failed_scenario',
+						{ directory: readout[i] }));
+				}
+			}
 		}
 	}
 
@@ -87,7 +115,7 @@ class Producer {
 		callback(this.colors);
 	}
 
-	readDirectory(directory) {
+	readGraphicsDirectory(directory) {
 		const dir_path = path.join(__dirname, '..', directory);
 		let files = [];
 		try {

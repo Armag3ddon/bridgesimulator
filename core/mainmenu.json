@@ -61,7 +61,11 @@
 							"Button_2": {
 								"rect": "button",
 								"font": "button",
-								"i18ntext": "game.menu.b2server"
+								"i18ntext": "game.menu.b2server",
+								"callback": {
+									"arguments": "",
+									"body": "window.gamecore.goto('ServerScene');"
+								}
 							},
 							"Button_3": {
 								"rect": "button",

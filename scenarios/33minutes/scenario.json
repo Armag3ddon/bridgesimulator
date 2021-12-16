@@ -1,0 +1,14 @@
+{
+	"name": "33 Minutes",
+	"maxPlayer": "6",
+	"description": "Continuous jumping badly affects the FTL drives and management systems aboard commercial Colonial vessels, which are not as rugged as Galactica's military-issue drives. The Cylons' FTL technology is more precise than the Colonials'. 238 times they manage to pounce on the Colonial fleet, arriving with precise momentum and trajectory to be able to close the distance and launch an attack. In the Season 2 episode \"Lay Down Your Burdens, Part I\", it is explained that the Cylons have far better navigational computers which allow more accurate jump plots and a greater range. According to Socinus, there are 5,251 people in the Fleet from Sagittaron. As of \"33\", there are 60 civilian ships in the Fleet. This number is retconned up from the Miniseries. The head count of Colonial citizens at the end of the episode is 47,973. At first glance, there appears to be an error with Billy Keikeya's math with the survivor count. The episode starts with the count being 50,298. He informs Roslin this is in error by 300 = 49,998 survivors. When the Olympic Carrier is destroyed (1,345 people), he reduces the total to 47,972 – that’s a reduction of 2026, or 681 people more than listed on the Carrier. However, in deleted scenes from this episode, Keikeya is actually reducing the survivor count additional times set between the beginning of the episode and the destruction of the Olympic Carrier. These other deaths just occur off-screen.",
+	"duration": "120",
+	"entry": "Universe",
+	"stations": {
+		"helm": "Helm",
+		"scanner": "Scanner",
+		"coms": "Communication",
+		"fighters": "Fighter Control",
+		"engineering": "Engineering"
+	}
+}

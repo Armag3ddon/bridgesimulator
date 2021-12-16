@@ -12,13 +12,19 @@ export default class ResponsiveLayout extends Entity {
 
 		// First element of rows is used to store layouting information on all rows
 		this.rows = [[null]];
+		// If true, the layout will fit to its parent's size
+		this.inheritSize = true;
 	}
 
 	async onDynamic(json, sceneHandles) {
 		for (const row in json.rows) {
 			let newRow = this.createRow(parseInt(row));
 			for (const entity in json.rows[row]) {
-				const module = await import('./' + entity.toLowerCase() + '.js');
+				let newModule = entity.toLowerCase();
+				if (newModule.includes('_')) {
+					newModule = newModule.substr(0, newModule.indexOf('_'));
+				}
+				const module = await import('./' + newModule + '.js');
 				const newEntity = await module.default.create(json.rows[row][entity], sceneHandles);
 
 				if (json.rows[row][entity].width)
@@ -40,10 +46,15 @@ export default class ResponsiveLayout extends Entity {
 				}
 			}
 		}
+		if (json.fixedSize) this.setFixedSize();
 	}
 
 	postDynamic() {
 		this.resize();
+	}
+
+	setFixedSize() {
+		this.inheritSize = false;
 	}
 
 	/**
@@ -120,7 +131,9 @@ export default class ResponsiveLayout extends Entity {
 	}
 
 	onResize() {
-		this.size = this.parent.size.clone();
+		if (this.inheritSize) {
+			this.size = this.parent.size.clone();
+		}
 
 		let rowlength, rowminlength, flexibles, flexiblereduction, marginleft, marginright, vstack = false;
 		let rowheight, allheight = 0, redoheight;

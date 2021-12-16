@@ -29,6 +29,7 @@ class Engine {
 		this.producer.loadFonts();
 		this.producer.loadColors();
 		this.producer.loadBasicScenes();
+		this.producer.loadScenarios();
 
 		console.info(i18next.t('server.engine.started'));
 	}

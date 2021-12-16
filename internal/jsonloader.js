@@ -11,7 +11,7 @@ class JSONLoader {
 		this.core = core_directory;
 		this.custom = custom_directory;
 	}
-	
+
 	loadJSON(filepath) {
 		let result, custom;
 		try {

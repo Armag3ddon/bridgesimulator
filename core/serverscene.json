@@ -1,0 +1,95 @@
+{
+	"name": "ServerScene",
+	"functions": {
+		"fillScenarioList": {
+			"arguments": "data",
+			"body": [
+				"if (!Array.isArray(data)) return;",
+				"this.scenariosLoaded = data;"
+			]
+		},
+		"onGoto": {
+			"arguments": "",
+			"body": [
+				"if (this.scenariosLoaded) return;",
+				"this.parent.networkOut('requestScenarios', null, this.fillScenarioList.bind());"
+			]
+		}
+	},
+	"entities": {
+		"ResponsiveLayout": {
+			"rows": {
+				"1": {
+					"Entity": {
+						"width": 100,
+						"min_height": 5,
+						"horizontal_spacer": true
+					}
+				},
+				"2": {
+					"Entity_1": {
+						"min_width": 5,
+						"height": 45,
+						"vertical_spacer": true
+					},
+					"Scrollfield": {
+						"min_width": 300,
+						"width": 60,
+						"min_height": "fonts.medium",
+						"height": 45,
+						"rect": "textbox",
+						"horizontalScrollbar": {
+							"thickness": 10,
+							"rect": "scrollbar",
+							"rectScroller": "scrollbarthumb"
+						}
+					},
+					"Entity_2": {
+						"min_width": 10,
+						"height": 45,
+						"vertical_spacer": true
+					},
+					"ResponsiveLayout": {
+						"fixedSize": true,
+						"min_width": 100,
+						"width": 25,
+						"min_height": 150,
+						"height": 45,
+						"rows": {
+							"1": {
+								"Button": {
+									"rect": "button",
+									"font": "button",
+									"i18next": "",
+									"min_height": 50,
+									"width": 100
+								}
+							},
+							"2": {
+								"Entity": {
+									"min_height": 10,
+									"width": 100,
+									"horizonal_spacer": true
+								}
+							},
+							"3": {
+								"RectEntity": {
+									"color": "textbox",
+									"height": 100,
+									"width": 100
+								}
+							}
+						}
+					}
+				},
+				"3": {
+					"Entity": {
+						"width": 100,
+						"min_height": 10,
+						"horizontal_spacer": true
+					}
+				}
+			}
+		}
+	}
+}

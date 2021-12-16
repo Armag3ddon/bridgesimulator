@@ -33,8 +33,10 @@ export default class Director {
 		}
 		if (sceneJSON.functions) {
 			for (const functionName in sceneJSON.functions) {
-				const newFunction = new Function(sceneJSON.functions[functionName].arguments,
-					sceneJSON.functions[functionName].body);
+				let body = sceneJSON.functions[functionName].body;
+				if (Array.isArray(body)) body = body.join('');
+				console.log(body);
+				const newFunction = new Function(sceneJSON.functions[functionName].arguments, body);
 				scene[functionName] = newFunction;
 			}
 		}
