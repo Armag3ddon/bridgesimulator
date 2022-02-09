@@ -1,39 +1,39 @@
 {
 	"server": {
-		"start": "[INFO] Starting server on port {{port}}.",
+		"start": "[$t(glossary:log.info)] Starting server on port {{port}}.",
 		"engine": {
-			"starting": "[INFO] Engine starting.",
-			"started": "[INFO] Engine started.",
-			"custom_json": "[INFO] File {{filepath}} got amended by a custom file when loading.",
-			"graphics_loaded_one": "[INFO] Found {{count}} graphic file.",
-			"graphics_loaded_other": "[INFO] Found {{count}} graphic files.",
-			"basic_scenes": "[INFO] Basic scenes loaded.",
-			"fonts_loaded_one": "[INFO] Loaded {{count}} font.",
-			"fonts_loaded_other": "[INFO] Loaded {{count}} fonts.",
-			"colors_loaded": "[INFO] Loaded color configurations.",
-			"load_scenario": "[INFO] Found scenario directory: {{directory}}."
+			"starting": "[$t(glossary:log.info)] Engine starting.",
+			"started": "[$t(glossary:log.info)] Engine started.",
+			"custom_json": "[$t(glossary:log.info)] File {{filepath}} got amended by a custom file when loading.",
+			"graphics_loaded_one": "[$t(glossary:log.info)] Found {{count}} graphic file.",
+			"graphics_loaded_other": "[$t(glossary:log.info)] Found {{count}} graphic files.",
+			"basic_scenes": "[$t(glossary:log.info)] Basic scenes loaded.",
+			"fonts_loaded_one": "[$t(glossary:log.info)] Loaded {{count}} font.",
+			"fonts_loaded_other": "[$t(glossary:log.info)] Loaded {{count}} fonts.",
+			"colors_loaded": "[$t(glossary:log.info)] Loaded color configurations.",
+			"load_scenario": "[$t(glossary:log.info)] Found scenario directory: {{directory}}."
 		},
 		"socket": {
-			"connect": "[INFO] A new client with id {{id}} connected.",
-			"disconnect": "[INFO] A client has disconnect. Reason:"
+			"connect": "[$t(glossary:log.info)] A new client with id {{id}} connected.",
+			"disconnect": "[$t(glossary:log.info)] A client has disconnect. Reason:"
 		},
 		"warnings": {
-			"no_graphics": "[WARNING] Found no graphic files to load.",
-			"no_fonts": "[WARNING] Found no font definitions to load."
+			"no_graphics": "[$t(glossary:log.warning)] Found no graphic files to load.",
+			"no_fonts": "[$t(glossary:log.warning)] Found no font definitions to load."
 		},
 		"errors": {
-			"failed_json": "[ERROR] Failed to load JSON from \"{{- filepath}}\".",
-			"failed_graphics": "[ERROR] Failed to load graphics from \"{{- filepath}}\". Reason:",
-			"failed_fonts": "[ERROR] There was a problem with font loading.",
-			"failed_scenes": "[ERROR] There was a problem with scene loading.",
-			"failed_colors": "[ERROR] There was a problem with color loading.",
-			"failed_scenario": "[ERROR] Unable to locate scenario.json in {{directory}}."
+			"failed_json": "[$t(glossary:log.error)] Failed to load JSON from \"{{- filepath}}\".",
+			"failed_graphics": "[$t(glossary:log.error)] Failed to load graphics from \"{{- filepath}}\". Reason:",
+			"failed_fonts": "[$t(glossary:log.error)] There was a problem with font loading.",
+			"failed_scenes": "[$t(glossary:log.error)] There was a problem with scene loading.",
+			"failed_colors": "[$t(glossary:log.error)] There was a problem with color loading.",
+			"failed_scenario": "[$t(glossary:log.error)] Unable to locate scenario.json in {{directory}}."
 		}
 	},
 	"game": {
 		"title": "Generic Bridge Simulator",
 		"player": {
-			"connect": "[INFO] New player {{- name}} ({{- id}}) created."
+			"connect": "[$t(glossary:log.info)] New player {{- name}} ({{- id}}) created."
 		},
 		"password": {
 			"hello": "Welcome to {{- request.site}}.",

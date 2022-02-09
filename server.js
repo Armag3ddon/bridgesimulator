@@ -53,7 +53,7 @@ server.listen(port, () => {
 		lng: default_language,
 		fallbackLng: 'en',
 		preload: ['en', default_language],
-		ns: ['main'],
+		ns: ['main', 'glossary'],
 		defaultNS: ['main'],
 		backend: {
 			loadPath: `http://localhost:${port}${language_dir}/{{lng}}/{{ns}}.json`

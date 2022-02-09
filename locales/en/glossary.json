@@ -1,0 +1,7 @@
+{
+	"log": {
+		"info": "INFO",
+		"warning": "WARNING",
+		"error": "ERROR"
+	}
+}
